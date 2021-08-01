@@ -48,8 +48,16 @@ signIn = (req, res) => {
     });
 }
 
+signOut = (req, res) => {
+    return res.status(200).send({
+        accessToken: null,
+        message: `User ${req.username} logged out successfully`
+    });
+}
+
 const authController = {
     signUp,
-    signIn
+    signIn,
+    signOut
 };
 module.exports = authController;

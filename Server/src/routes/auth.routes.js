@@ -10,4 +10,5 @@ module.exports = (app) => {
 
     app.post(config.SIGN_UP_URL, [verifySignUp.checkDuplicateUserName], authController.signUp);
     app.post(config.SIGN_IN_URL, authController.signIn);
+    app.post(config.SIGN_OUT_URL, authController.signOut);
 };

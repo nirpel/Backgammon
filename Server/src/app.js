@@ -3,7 +3,8 @@ const http = require('http');
 const socketio = require("socket.io");
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
-const userTestRoutes = require('./routes/user.routes');
+const chatRoutes = require('./routes/chat.routes');
+const connectionListener = require('./listeners/connection.listener');
 
 const app = express();
 const server = http.createServer(app);
@@ -17,23 +18,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 authRoutes(app);
+chatRoutes(app);
+connectionListener(io);
 
-io.on('connection', (socket) => {
-
-    console.log('user connected');
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-
-    socket.on('message-sent', (msg) => {
-        io.emit('message-recived', `server recived: ${msg}`);
-    })
-});
 
 const db = require("./models");
 const dbConfig = require('./config/db.config');
-const userRoutes = require('./routes/user.routes');
 
 db.mongoose
     .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
