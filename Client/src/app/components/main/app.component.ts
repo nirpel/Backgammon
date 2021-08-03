@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatService } from 'src/app/services/chat/chat.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +9,12 @@ import { ChatService } from 'src/app/services/chat/chat.service';
 export class AppComponent implements OnInit {
   title = 'Backgammon';
 
-  constructor(public chatService: ChatService) {}
+  constructor(public userService: UserService) {}
 
   ngOnInit() {
-    this.chatService.setupSocketConnection();
   }
 
   ngOnDestroy() {
-    this.chatService.disconnect();
+    this.userService.disconnect();
   }
 }
