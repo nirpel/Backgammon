@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
+import { ChatService } from 'src/app/services/chat/chat.service';
 
 @Component({
   selector: 'app-user',
@@ -14,9 +15,13 @@ export class UserComponent implements OnInit {
   @Input()
   isLoggedIn: boolean;
 
-  constructor() { }
+  constructor(private chatService: ChatService) { }
 
   ngOnInit(): void {
+  }
+
+  chat(): void {
+    this.chatService.initChat(this.user);
   }
 
 }

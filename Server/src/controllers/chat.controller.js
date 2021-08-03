@@ -6,7 +6,7 @@ const Chat = db.chat;
 getChat = async (req, res) => {
     // available with using middlewate veirfyToken (authJWT)
     let user1 = await User.findOne({ _id: req.userId });     // request sender
-    let user2 = await User.findOne({ username: req.body.chatUser });  // chat friend (username)
+    let user2 = await User.findOne({ username: req.query.chatUser });  // chat friend (username)
     let requiredChat = await Chat.findOne({
         participants: [user1, user2] || [user2, user1]
     });
