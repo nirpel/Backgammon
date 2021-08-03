@@ -30,7 +30,7 @@ signIn = (req, res) => {
         if (user) {
             let isPasswordValid = await bcrypt.compare(req.body.password, user.password);
             if (isPasswordValid) {
-                let token = jwt.sign({ id: user._id }, authConfig.secret);
+                let token = jwt.sign({ id: user._id, username: user.username }, authConfig.secret);
                 return res.status(200).send({
                     id: user._id,
                     username: user.username,
@@ -43,7 +43,7 @@ signIn = (req, res) => {
                 });
             }
         } else {
-            res.status(404).send({ message: `User ${req.body.username} not found`});
+            res.status(404).send({ message: `User ${req.body.username} not found` });
         }
     });
 }

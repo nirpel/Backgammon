@@ -4,7 +4,7 @@ const socketio = require("socket.io");
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
 const chatRoutes = require('./routes/chat.routes');
-const connectionListener = require('./listeners/connection.listener');
+const ioListener = require('./listeners');
 
 const app = express();
 const server = http.createServer(app);
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 authRoutes(app);
 chatRoutes(app);
-connectionListener(io);
+ioListener(io);
 
 
 const db = require("./models");
