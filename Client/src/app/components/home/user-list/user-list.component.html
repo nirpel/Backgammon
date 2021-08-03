@@ -1,1 +1,4 @@
-<p>user-list works!</p>
+<h1>Connected</h1>
+<app-user *ngFor="let user of this.userService.loggedInUsers" [user]="user" [isLoggedIn]="loggedIn"></app-user>
+<h1>Disconnected</h1>
+<app-user *ngFor="let user of this.userService.loggedOutUsers" [user]="user" [isLoggedIn]="!loggedIn"></app-user>

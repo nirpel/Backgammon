@@ -27,7 +27,13 @@ getChat = async (req, res) => {
     }
 }
 
+getUsernames = async (req, res) => {
+    let users = (await User.find()).map((user) => user.username);
+    return res.status(200).send(JSON.stringify(users));
+}
+
 const chatController = {
-    getChat
+    getChat,
+    getUsernames
 };
 module.exports = chatController;

@@ -16,6 +16,6 @@ export class HomePageComponent implements OnInit {
 
   logout() {
     this.userService.logout();
-    this.router.navigate[''];
+    this.router.navigate(['']);
   }
 }

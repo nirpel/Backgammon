@@ -15,6 +15,10 @@ module.exports = (io) => {
             });
         }
 
+        socket.on('users-list', () => {
+            connectionEvents.userConnected(io, users);
+        })
+
         socket.on('disconnect', () => {
             users.splice(users.indexOf(socket.username), 1);
             connectionEvents.userDisconnected(io, users);
