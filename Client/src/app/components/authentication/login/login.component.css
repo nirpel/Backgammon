@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.login-container {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: var(--light);
+    border-radius: 1.2em;
+    padding: 1em;
+    text-align: center;
+}
+
+.login-container input[type="text"] {
+    margin: 1em 0;
+}
+
+.login-button { 
+    margin: 1em 0
+}

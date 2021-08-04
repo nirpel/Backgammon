@@ -1,0 +1,11 @@
+.user-wrapper {
+    display: flex;
+    padding: 0.2em 0.5em;
+    border-bottom: 1px solid var(--accent);
+}
+
+.user-wrapper:hover { 
+    background-color: var(--accent);
+    cursor: pointer;
+    color: var(--light);
+}

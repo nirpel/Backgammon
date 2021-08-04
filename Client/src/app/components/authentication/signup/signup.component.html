@@ -1,6 +1,16 @@
-<h1>Sign-Up</h1>
-<form>
-    <input type="text" placeholder="username:" [(ngModel)]="user.username" name="username"/>
-    <input type="password" placeholder="password:" [(ngModel)]="user.password" name="password"/>
-    <button type="submit" (click)="signUp()">Sign Up!</button>
-</form>
+<div class="wrapper">
+    <div class="signup-container">
+        <h1>Sign-Up</h1>
+        <form>
+            <div>
+                <input type="text" placeholder="username:" [(ngModel)]="user.username" name="username" />
+            </div>
+            <div>
+                <input type="password" placeholder="password:" [(ngModel)]="user.password" name="password" />
+            </div>
+            <div>
+                <button class="signup-button" type="submit" (click)="signUp()">Sign Up!</button>
+            </div>
+        </form>
+    </div>
+</div>

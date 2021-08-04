@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary: #5cdb95;
+    --primary-light: #8ee4af;
+    --primary-dark: #379683;
+    --accent: #05386b;
+    --light: #edf5e1;
+    --main-font: 'Baloo Chettan 2', cursive;
+}
+
+html, body {
+    height: 100%;
+    padding:0;
+    background-color: var(--primary);
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 0;
+    font-family: var(--main-font);
+}

@@ -1,4 +1,11 @@
-<h1>Connected</h1>
-<app-user *ngFor="let user of this.userService.loggedInUsers" [user]="user" [isLoggedIn]="loggedIn"></app-user>
-<h1>Disconnected</h1>
-<app-user *ngFor="let user of this.userService.loggedOutUsers" [user]="user" [isLoggedIn]="!loggedIn"></app-user>
+<div class='users-list-wrapper'>
+    <div class="users-list-section">
+        <div class="users-list-header">Online Users</div>
+        <app-user *ngFor="let user of this.userService.loggedInUsers" [user]="user" [isLoggedIn]="loggedIn"></app-user>
+    </div>
+    <div class="users-list-section"> 
+        <div class="users-list-header">Offline Users</div>
+        <app-user *ngFor="let user of this.userService.loggedOutUsers" [user]="user" [isLoggedIn]="!loggedIn">
+        </app-user>
+    </div>
+</div>

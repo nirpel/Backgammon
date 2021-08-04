@@ -1,0 +1,17 @@
+.users-list-wrapper {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: var(--light);
+    border-radius: 1.2em;
+    padding: 1em;
+    height: auto;
+}
+
+.users-list-section { 
+    padding: 0.5em;
+}
+
+.users-list-header { 
+    font-size: 1.8em;
+    margin: 0.4em 0;
+    color: var(--accent);
+}
