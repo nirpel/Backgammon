@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from 'src/app/services/socket/socket.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -9,12 +10,12 @@ import { UserService } from 'src/app/services/user/user.service';
 export class AppComponent implements OnInit {
   title = 'Backgammon';
 
-  constructor(public userService: UserService) {}
+  constructor(public socketService: SocketService) {}
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.userService.disconnect();
+    this.socketService.disconnect();
   }
 }

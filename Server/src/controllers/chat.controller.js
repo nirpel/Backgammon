@@ -1,6 +1,7 @@
 const db = require('../models');
 const User = db.user;
 const Chat = db.chat;
+const ChatMessage = db.chatMessage;
 
 // Get chat by two users. if chat is not found, create a new one.
 getChat = async (req, res) => {
@@ -8,7 +9,10 @@ getChat = async (req, res) => {
     let user1 = await User.findOne({ _id: req.userId });     // request sender
     let user2 = await User.findOne({ username: req.query.chatUser });  // chat friend (username)
     let requiredChat = await Chat.findOne({
-        participants: [user1, user2] || [user2, user1]
+        $or: [
+            { participants: [user1, user2] },
+            { participants: [user2, user1] }
+        ]
     });
     if (!requiredChat) {
         // if chat not found, Create Chat and return it
@@ -19,11 +23,22 @@ getChat = async (req, res) => {
             if (err) {
                 return res.status(500).send({ message: err.message });
             }
-            return res.status(200).send({ id: chat._id, messages: chat.messages });
+            // return new empty chat
+            return res.status(200).send({ id: chat._id, messages: null });
         })
     } else {
         // If chat found, return id & messages collection
-        return res.status(200).send({ id: requiredChat._id, messages: requiredChat.messages });
+        let messages = [];
+        for (let i = 0; i < requiredChat.messages.length; i++) {
+            let message = await ChatMessage.findById(requiredChat.messages[i]._id || requiredChat.messages[i]);
+            let sender = await User.findById(message.sender._id || message.sender);
+            messages.push({
+                message: message.message,
+                date: message.date,
+                sender: sender.username
+            });
+        }
+        return res.status(200).send({ id: requiredChat._id, messages: messages });
     }
 }
 

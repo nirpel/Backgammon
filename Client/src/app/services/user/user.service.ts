@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user.model';
+import { SocketService } from '../socket/socket.service';
 
 const URL = 'http://localhost:3420';
 
@@ -11,33 +12,29 @@ const URL = 'http://localhost:3420';
 })
 export class UserService {
 
-  socket: Socket;
   loggedInUsers: string[] = [];
   loggedOutUsers: string[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private socketService: SocketService) {
+    this.initSockets();
+  }
 
-  setupSocketConnection() {
-    this.socket = io(environment.SOCKET_ENDPOINT, { query: { 'token': localStorage.getItem('token') } });
+  initSockets() {
+    if (!this.socketService.isConnected()) {
+      this.socketService.setupSocketConnection();
+    }
 
-    this.socket.on("connected", () => {
-      console.log('someone connected');
-    })
-
-    this.socket.on("user-connected", (users) => {
-      this.loggedInUsers = users;
-      this.getUsersList();
-    })
-
-    this.socket.on("user-disconnected", (users) => {
-      this.loggedInUsers = users;
-      this.getUsersList();
+    this.socketService.userConnectedEvent.subscribe((users) => {
+      this.handleUserConnectionActivity(users);
+    });
+    this.socketService.userDisonnectedEvent.subscribe((users) => {
+      this.handleUserConnectionActivity(users);
     })
   }
 
   initUsersLists() {
-    if (this.socket) {
-      this.socket.emit('users-list');
+    if (this.socketService.isConnected()) {
+      this.socketService.emitUserListChanged();
     } else {
       this.getUsersList();
     }
@@ -45,13 +42,13 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('token');
-    this.disconnect();
+    localStorage.removeItem('username');
+    this.socketService.disconnect();
   }
 
-  disconnect() {
-    if (this.socket) {
-      this.socket.disconnect();
-    }
+  private handleUserConnectionActivity(users: string[]) {
+    this.loggedInUsers = users;
+    this.getUsersList();
   }
 
   private getUsersList() {

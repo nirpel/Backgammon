@@ -1,1 +1,9 @@
-<p>chat works!</p>
+<div>
+    <div>
+        <app-message *ngFor="let message of chatService.messages" [message]="message"
+            [isSentByUser]="chatService.isMessageSentByUser(message)">
+        </app-message>
+    </div>
+    <input type="text" [(ngModel)]="newMessage"/>
+    <button (click)="sendMessage()">Send</button>
+</div>
