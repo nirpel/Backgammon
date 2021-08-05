@@ -4,6 +4,8 @@ import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user.model';
 import { SocketService } from '../socket/socket.service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 
 const URL = 'http://localhost:3420';
 
@@ -15,7 +17,11 @@ export class UserService {
   loggedInUsers: string[] = [];
   loggedOutUsers: string[] = [];
 
-  constructor(private http: HttpClient, private socketService: SocketService) {
+  constructor(
+    private http: HttpClient,
+    private socketService: SocketService,
+    private router: Router
+  ) {
     this.initSockets();
   }
 
