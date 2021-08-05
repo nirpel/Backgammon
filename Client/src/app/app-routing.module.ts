@@ -7,9 +7,9 @@ import { HomePageComponent } from './components/home/home-page/home-page.compone
 import { AuthenticationService } from './services/authentication/authentication.service';
 
 const routes: Routes = [
-  { path: 'home', component: HomePageComponent, canActivate: [AuthenticationService] },
+  { path: 'home', component: HomePageComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'chat', component: ChatComponent, canActivate: [AuthenticationService] },
+  { path: 'chat', component: ChatComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'login' }
 ];

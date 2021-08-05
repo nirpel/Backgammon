@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { SocketService } from '../socket/socket.service';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 const URL = 'http://localhost:3420';
 
@@ -20,7 +21,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private socketService: SocketService,
-    private router: Router
+    private authService: AuthenticationService
   ) {
     this.initSockets();
   }

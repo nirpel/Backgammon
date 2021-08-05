@@ -79,3 +79,21 @@
     opacity: 0.8;
     cursor: pointer;
 }
+
+.chat-icon {
+    color: var(--accent);
+    font-size: 1.5vmax;
+}
+
+.chat-icon:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.chat-back {
+    margin-left: 1em;
+}
+
+.chat-options {
+    margin-right: 1em;
+}

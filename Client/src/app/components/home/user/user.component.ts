@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
-import { ChatService } from 'src/app/services/chat/chat.service';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faDotCircle } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-user',
@@ -15,6 +15,8 @@ export class UserComponent implements OnInit {
 
   @Input()
   isLoggedIn: boolean;
+
+  connectionIcon: IconDefinition = faDotCircle;
 
   constructor(private router: Router) { }
 

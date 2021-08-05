@@ -1,4 +1,4 @@
 <div class="user-wrapper" (click)="chat()">
+    <fa-icon class="connection-icon" [ngClass]="isLoggedIn ? 'online' : 'offline'" [icon]="connectionIcon"></fa-icon>
     <div>{{ user }}</div>
-    <div>{{ isLoggedIn }}</div>
 </div>

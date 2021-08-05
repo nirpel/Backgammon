@@ -2,11 +2,11 @@
     <div class="chat-box">
         <div class="chat-top-bar">
             <div>
-                <!-- back icon -->
+                <fa-icon class="chat-icon chat-back" [icon]="backIcon" (click)="redirect()"></fa-icon>
             </div>
             <div class="chat-name">{{ chatService.chatUser }}</div>
             <div>
-                <!-- menu icon -->
+                <fa-icon class="chat-icon chat-options" [icon]="optionsIcon"></fa-icon>
             </div>
         </div>
         <div #chatScroller class="chat-middle">
@@ -16,7 +16,7 @@
         </div>
         <div class="chat-bottom">
             <input type="text" [(ngModel)]="newMessage" placeholder="Type a message..." />
-            <fa-icon class="send-button" [icon]="sendIcon" (click)="sendMessage()">Send</fa-icon>
+            <fa-icon class="send-button" [icon]="sendIcon" (click)="sendMessage()"></fa-icon>
         </div>
     </div>
 </div>

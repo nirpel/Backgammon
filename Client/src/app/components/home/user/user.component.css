@@ -2,10 +2,23 @@
     display: flex;
     padding: 0.2em 0.5em;
     border-bottom: 1px solid var(--accent);
+    justify-content: flex-start;
 }
 
-.user-wrapper:hover { 
+.user-wrapper:hover {
     background-color: var(--accent);
     cursor: pointer;
     color: var(--light);
+}
+
+.connection-icon {
+    margin-right: 0.5em;
+}
+
+.online {
+    color: green;
+}
+
+.offline {
+    color: red;
 }
