@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../data-access/models');
 const User = db.user;
 const Chat = db.chat;
 const ChatMessage = db.chatMessage;

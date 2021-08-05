@@ -1,0 +1,30 @@
+.message-container {
+    width: 100%;
+    display: flex;
+}
+
+.incoming-container {
+    justify-content: flex-end;
+}
+
+.outgoing-container {
+    justify-content: start;
+}
+
+.message-bubble {
+    display: inline-block;
+    max-width: 60%;
+    margin: 0.1em 2em;
+    font-size: 1.1vmax;
+    padding: 0.5em 1.2em;
+    color: var(--light);
+    border-radius: 2em;
+}
+
+.incoming-bubble {
+    background-color: var(--primary-dark);
+}
+
+.outgoing-bubble {
+    background-color: var(--accent);
+}

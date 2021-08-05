@@ -1,9 +1,11 @@
 const userConnected = (socket, users) => {
-    socket.emit("user-connected", users);
+    let usernames = users.map(user => user.username);
+    socket.emit("user-connected", usernames);
 }
 
 const userDisconnected = (socket, users) => {
-    socket.emit("user-disconnected", users);
+    let usernames = users.map(user => user.username);
+    socket.emit("user-disconnected", usernames);
 }
 
 const messageRecived = (socket, msg) => {

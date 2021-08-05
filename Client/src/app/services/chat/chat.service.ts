@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Chat } from 'src/app/models/chat.model';
 import { Message } from 'src/app/models/message.model';
@@ -12,21 +12,25 @@ const URL = 'http://localhost:3420';
 })
 export class ChatService {
 
-  private chatUser: string;
-  private chatId: string;
+  messagePushedEvent: EventEmitter<any> = new EventEmitter();
+  chatUser: string;
   messages: Message[] = [];
 
   constructor(
     private http: HttpClient,
     private socketService: SocketService,
     private router: Router
-  ) { 
+  ) {
     this.initSockets();
   }
 
   initSockets() {
     this.socketService.messageRecivedEvent.subscribe((message: Message) => {
-      this.messages.push(message);
+      if (this.chatUser === message.sender) {
+        this.pushMessage(message);
+      } else {
+        // TODO: make sound and mark required chat;
+      }
     });
   }
 
@@ -34,11 +38,10 @@ export class ChatService {
     this.chatUser = username;
     this.getChat().subscribe(
       (data) => {
-        this.chatId = data.id;
         this.messages = data.messages;
       }
     );
-    
+
     // at the end (TODO: add query string for identifyer?)
     this.router.navigate(['chat']);
   }
@@ -53,7 +56,13 @@ export class ChatService {
       date: new Date(),
       sender: localStorage.getItem('username')
     };
+    this.pushMessage(message);
     this.socketService.emitMessageSent(message, this.chatUser);
+  }
+
+  private pushMessage(message: Message): void {
+    this.messages.push(message);
+    this.messagePushedEvent.emit();
   }
 
   private getChat() {

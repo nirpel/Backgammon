@@ -1,9 +1,22 @@
-<div>
-    <div>
-        <app-message *ngFor="let message of chatService.messages" [message]="message"
-            [isSentByUser]="chatService.isMessageSentByUser(message)">
-        </app-message>
+<div class="chat-container">
+    <div class="chat-box">
+        <div class="chat-top-bar">
+            <div>
+                <!-- back icon -->
+            </div>
+            <div class="chat-name">{{ chatService.chatUser }}</div>
+            <div>
+                <!-- menu icon -->
+            </div>
+        </div>
+        <div #chatScroller class="chat-middle">
+            <app-message *ngFor="let message of chatService.messages" [message]="message"
+                [isSentByUser]="chatService.isMessageSentByUser(message)">
+            </app-message>
+        </div>
+        <div class="chat-bottom">
+            <input type="text" [(ngModel)]="newMessage" placeholder="Type a message..." />
+            <fa-icon class="send-button" [icon]="sendIcon" (click)="sendMessage()">Send</fa-icon>
+        </div>
     </div>
-    <input type="text" [(ngModel)]="newMessage"/>
-    <button (click)="sendMessage()">Send</button>
 </div>

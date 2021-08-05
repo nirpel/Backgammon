@@ -3,7 +3,7 @@ const authConfig = require('../config/auth.config');
 const connectionListener = require('./connection.listener');
 const chatListener = require('./chat.listener');
 const connectionEvents = require('../events/connection.event');
-const db = require('../models');
+const db = require('../data-access/models');
 const User = db.user;
 const Chat = db.chat;
 
@@ -13,11 +13,11 @@ module.exports = (io) => {
     io.on("connection", (socket) => {
         if (socket.handshake.query && socket.handshake.query.token) {
             // when user connected - push it to connected users list & emit 'user-connected'
+            console.log('socket id before verification:', socket.id);
             jwt.verify(socket.handshake.query.token, authConfig.secret, (err, decoded) => {
                 if (err) throw err;
                 socket.username = decoded.username;
-                socket.id = decoded.id;
-                users.push(socket.username);
+                users.push({ id: socket.id, username: socket.username });
                 connectionEvents.userConnected(io, users);
             });
             // join user to all the chats he belongs to
@@ -31,7 +31,7 @@ module.exports = (io) => {
             //});
         }
         connectionListener(io, socket, users);
-        chatListener(io, socket);
+        chatListener(io, socket, users);
     });
 
 }

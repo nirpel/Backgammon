@@ -15,7 +15,7 @@ export class SocketService {
   messageRecivedEvent: EventEmitter<Message> = new EventEmitter();
 
   constructor() { }
- 
+
   setupSocketConnection() {
     this.socket = io(environment.SOCKET_ENDPOINT, { query: { 'token': localStorage.getItem('token') } });
     this.initUserListeners();
@@ -29,10 +29,13 @@ export class SocketService {
     this.socket.emit('users-list');
   }
   //#endregion
-  
+
   //#region Chat Events
   emitMessageSent(message: Message, toUsername: string) {
-    this.socket.emit('message-sent', { message: message, to: toUsername });
+    this.socket.emit('message-sent', {
+      message: message,
+      to: toUsername
+    });
   }
   //#endregion
 
@@ -46,7 +49,7 @@ export class SocketService {
   }
 
   private initChatListeners() {
-    this.socket.on('message-recived', (message) => {console.log(message); this.messageRecivedEvent.emit(message)});
+    this.socket.on('message-recived', (message) => { console.log(message); this.messageRecivedEvent.emit(message) });
   }
   //#endregion
 

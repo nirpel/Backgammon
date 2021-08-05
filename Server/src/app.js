@@ -22,7 +22,7 @@ chatRoutes(app);
 ioListener(io);
 
 
-const db = require("./models");
+const db = require("./data-access/models");
 const dbConfig = require('./config/db.config');
 
 db.mongoose
