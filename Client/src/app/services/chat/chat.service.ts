@@ -38,12 +38,11 @@ export class ChatService {
     this.chatUser = username;
     this.getChat().subscribe(
       (data) => {
-        this.messages = data.messages;
+        this.messages = data.messages.sort(this.compareByDate);
+      }, (err) => {
+        this.router.navigate(['home']);
       }
     );
-
-    // at the end (TODO: add query string for identifyer?)
-    this.router.navigate(['chat']);
   }
 
   isMessageSentByUser(message: Message): boolean {
@@ -74,5 +73,15 @@ export class ChatService {
         'x-access-token': localStorage.getItem('token')
       }
     });
+  }
+
+  private compareByDate(message1: Message, message2: Message) {
+    if (message1.date < message2.date) {
+      return -1;
+    }
+    if (message1.date > message2.date) {
+      return 1;
+    }
+    return 0;
   }
 }

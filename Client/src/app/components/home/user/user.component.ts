@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
@@ -15,13 +16,13 @@ export class UserComponent implements OnInit {
   @Input()
   isLoggedIn: boolean;
 
-  constructor(private chatService: ChatService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   chat(): void {
-    this.chatService.initChat(this.user);
+    this.router.navigate(['chat'], { queryParams: { user: this.user } });
   }
 
 }

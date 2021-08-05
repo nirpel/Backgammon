@@ -2,6 +2,9 @@ import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@ang
 import { Message } from 'src/app/models/message.model';
 import { ChatService } from 'src/app/services/chat/chat.service';
 import { faPaperPlane, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-chat',
@@ -13,12 +16,35 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatScroller') private chatScroller: ElementRef;
   newMessage: string = '';
   sendIcon: IconDefinition = faPaperPlane;
+  sub: Subscription;
 
-  constructor(public chatService: ChatService) { }
+  constructor(
+    public chatService: ChatService,
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.userService.initUsersLists();
+    this.initializeChat();
     this.scrollToBottom();
     this.chatService.messagePushedEvent.subscribe(this.scrollToBottom);
+  }
+
+  initializeChat(): void {
+    this.sub = this.route.queryParams.subscribe((params) => {
+      if (params['user']) {
+        this.chatService.initChat(params['user']);
+      }
+      else {
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   ngAfterViewChecked(): void {

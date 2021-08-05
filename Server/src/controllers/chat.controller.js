@@ -8,6 +8,9 @@ getChat = async (req, res) => {
     // available with using middlewate veirfyToken (authJWT)
     let user1 = await User.findOne({ _id: req.userId });     // request sender
     let user2 = await User.findOne({ username: req.query.chatUser });  // chat friend (username)
+    if (!user2) {
+        return res.status(403).send({ message: 'User not exist'});
+    }
     let requiredChat = await Chat.findOne({
         $or: [
             { participants: [user1, user2] },

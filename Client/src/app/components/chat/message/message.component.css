@@ -4,11 +4,11 @@
 }
 
 .incoming-container {
-    justify-content: flex-end;
+    justify-content: start;
 }
 
 .outgoing-container {
-    justify-content: start;
+    justify-content: flex-end;
 }
 
 .message-bubble {
@@ -19,12 +19,13 @@
     padding: 0.5em 1.2em;
     color: var(--light);
     border-radius: 2em;
+    word-wrap: break-word;
 }
 
 .incoming-bubble {
-    background-color: var(--primary-dark);
+    background-color: var(--accent);
 }
 
 .outgoing-bubble {
-    background-color: var(--accent);
+    background-color: var(--primary-dark);
 }
