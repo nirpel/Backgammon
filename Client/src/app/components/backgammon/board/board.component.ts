@@ -61,7 +61,7 @@ export class BoardComponent implements OnInit {
         this.addPiece(this.gameService.board.whitesLocations[i], PieceColor.White);
       }
       if (this.gameService.isPieceOnBoard(i, PieceColor.Black)) {
-        this.addPiece(this.gameService.board.blacksLocations[i], PieceColor.White);
+        this.addPiece(this.gameService.board.blacksLocations[i], PieceColor.Black);
       }
     }
   }
@@ -69,10 +69,10 @@ export class BoardComponent implements OnInit {
   addPiece(barId: number, color: PieceColor): void {
     for (let i = 0; i < this.bars.length; i++) {
       if (this.getBarGameIndexer(i) == barId) {
-        console.log('try to add piece to', barId, color);
+        this.gameService.newPieceColor = color;
         const componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(PieceComponent);
-        const viewContainerRef = this.bars.get(i);
-        viewContainerRef.createComponent(componentFactory);
+        const viewContainerRef = this.bars.get(i);        
+        viewContainerRef.createComponent(componentFactory).changeDetectorRef.detectChanges();
       }
     }
   }

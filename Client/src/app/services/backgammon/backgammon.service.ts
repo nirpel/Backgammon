@@ -10,6 +10,7 @@ export class BackgammonService {
 
   board: BoardState = { blacksLocations: [], whitesLocations: [] };
   color: PieceColor = PieceColor.White;
+  newPieceColor: PieceColor = PieceColor.White;
 
   constructor() { }
 

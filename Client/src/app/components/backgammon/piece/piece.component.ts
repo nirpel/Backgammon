@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PieceColor } from 'src/app/models/backgammon/piece-color';
+import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 
 @Component({
   selector: 'app-piece',
@@ -10,9 +11,9 @@ export class PieceComponent implements OnInit {
 
   white: PieceColor = PieceColor.White;
   black: PieceColor = PieceColor.Black;
-  @Input() color: PieceColor;
+  color: PieceColor = this.gameService.newPieceColor;
 
-  constructor() { }
+  constructor(private gameService: BackgammonService) { }
 
   ngOnInit(): void {
   }
