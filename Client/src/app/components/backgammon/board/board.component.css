@@ -1,0 +1,79 @@
+.board-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    width: 610px;
+    height: 480px;
+    position: relative;
+    background-image: url('src/assets/images/white-wood-background.jpg');
+    background-size: cover;
+    box-sizing: border-box;
+    border: 10px solid black;
+    border-radius: 10px;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.top-row {
+    display: flex;
+    justify-content: center;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.arrow-up, .arrow-down {
+    width: 40px;
+    height: 200px;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 2px;
+}
+
+.arrow-down {
+    transform: rotate(180deg);
+}
+
+.arrow-up.odd, .arrow-down.even {
+    background-image: url('src/assets/images/triangle-blue.png');
+}
+
+.arrow-up.even, .arrow-down.odd {
+    background-image: url('src/assets/images/triangle-green.png');
+}
+
+.middle-bar {
+    width: 20px;
+    height: 450px;
+    padding: 5px;
+    background-color: black;
+    position: absolute;
+    left: 280px;
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.piece-container {
+    width: 40px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}

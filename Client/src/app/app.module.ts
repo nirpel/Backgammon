@@ -13,6 +13,8 @@ import { MessageComponent } from './components/chat/message/message.component';
 import { ChatComponent } from './components/chat/chat/chat.component';
 import { UserListComponent } from './components/home/user-list/user-list.component';
 import { UserComponent } from './components/home/user/user.component';
+import { BoardComponent } from './components/backgammon/board/board.component';
+import { PieceComponent } from './components/backgammon/piece/piece.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { UserComponent } from './components/home/user/user.component';
     MessageComponent,
     ChatComponent,
     UserListComponent,
-    UserComponent
+    UserComponent,
+    BoardComponent,
+    PieceComponent
   ],
   imports: [
     BrowserModule,

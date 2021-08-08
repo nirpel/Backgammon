@@ -72,4 +72,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.router.navigate(['home']);
   }
 
+  showOptions(): void {
+    this.router.navigate(['backgammon']);
+  }
+
 }
