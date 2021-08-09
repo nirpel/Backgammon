@@ -25,5 +25,4 @@ module.exports = (io) => {
         chatListener(io, socket, users);
         backgammonListener(io, socket, users);
     });
-
 }

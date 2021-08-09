@@ -77,3 +77,21 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+.roll-container {
+    position: absolute;
+    left: 380px;
+    top: 190px;
+    height: 80px;
+    width: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dice-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100px;
+}

@@ -4,6 +4,7 @@ import { PieceColor } from 'src/app/models/backgammon/piece-color';
 import { SocketService } from '../socket/socket.service';
 import { GameInit } from 'src/app/models/backgammon/game-init';
 import { Router } from '@angular/router';
+import { Dice } from 'src/app/models/backgammon/dice';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class BackgammonService {
   opponent: string;
   playerColor: PieceColor = PieceColor.White;
   newPieceColor: PieceColor = PieceColor.White;
+  isPlayerTurn: boolean;
+  rolls: Dice[] = [];
 
   constructor(
     private socketService: SocketService,
@@ -24,7 +27,8 @@ export class BackgammonService {
   initGame(data: GameInit) {
     console.log(data);
     this.setUserColorAndOpponent(data);
-    this.setBoardState({ blacksLocations: data.blacksLocations, whitesLocations: data.whitesLocations});
+    this.setBoardState({ blacksLocations: data.blacksLocations, whitesLocations: data.whitesLocations });
+    this.listen();
     this.router.navigate(['backgammon']);
   }
 
@@ -45,6 +49,18 @@ export class BackgammonService {
       }
     }
     return false;
+  }
+
+  rollDice() {
+    this.socketService.emitRollDice(this.opponent, false);
+  }
+
+  private listen() {
+    this.socketService.diceRolled.subscribe((rolls) => this.rolls = rolls);
+  }
+
+  private setIsPlayerTurn() {
+    // TODO: convert colorised turn to boolean expression
   }
 
   private setBoardState(newState: BoardState) {

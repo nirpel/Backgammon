@@ -87,5 +87,12 @@
         <div class="middle-bar">
             <ng-container #bar class="piece-container"></ng-container>
         </div>
+        <div class="roll-container">
+            <div class="dice-container">
+                <app-dice [value]="gameService.rolls[0] ? gameService.rolls[0].value : 0"></app-dice>
+                <app-dice [value]="gameService.rolls[1] ? gameService.rolls[1].value : 0"></app-dice>
+            </div>
+            <button (click)="gameService.rollDice()">Roll!</button>
+        </div>
     </div>
 </div>

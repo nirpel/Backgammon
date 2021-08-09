@@ -1,7 +1,8 @@
 const {
     backgammonInviteRequest,
     backgammonInviteRejected,
-    backgammonInviteAccepted
+    backgammonInviteAccepted,
+    diceRolled
 } = require('../events/backgammon.events');
 
 module.exports = (io, socket, users) => {
@@ -20,6 +21,11 @@ module.exports = (io, socket, users) => {
         } else {
             backgammonInviteRejected(io, socket, data);
         }
+    });
+
+    socket.on('roll-dice', (data) => {
+        data.to = getSocketId(data.to, users);
+        diceRolled(io, socket, data);
     });
 }
 

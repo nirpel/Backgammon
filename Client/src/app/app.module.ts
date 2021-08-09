@@ -18,6 +18,7 @@ import { PieceComponent } from './components/backgammon/piece/piece.component';
 import { GameInviteDialogComponent } from './components/backgammon/game-invite-dialog/game-invite-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DiceComponent } from './components/backgammon/dice/dice.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UserComponent,
     BoardComponent,
     PieceComponent,
-    GameInviteDialogComponent
+    GameInviteDialogComponent,
+    DiceComponent
   ],
   imports: [
     BrowserModule,

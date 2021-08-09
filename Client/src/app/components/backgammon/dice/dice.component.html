@@ -1,0 +1,11 @@
+<div class="dice" [ngClass]="value === 0 ? 'hide' : ''">
+    <div [ngClass]="value !== 1 ? 'dice-circle' : ''"></div>   
+    <div></div> 
+    <div [ngClass]="value >= 4 ? 'dice-circle' : ''"></div> 
+    <div [ngClass]="value === 6 ? 'dice-circle' : ''"></div> 
+    <div [ngClass]="value % 2 !== 0 ? 'dice-circle' : ''"></div> 
+    <div [ngClass]="value === 6 ? 'dice-circle' : ''"></div> 
+    <div [ngClass]="value >= 4 ? 'dice-circle' : ''"></div> 
+    <div></div> 
+    <div [ngClass]="value !== 1 ? 'dice-circle' : ''"></div> 
+</div>
