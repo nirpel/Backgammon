@@ -15,6 +15,9 @@ import { UserListComponent } from './components/home/user-list/user-list.compone
 import { UserComponent } from './components/home/user/user.component';
 import { BoardComponent } from './components/backgammon/board/board.component';
 import { PieceComponent } from './components/backgammon/piece/piece.component';
+import { GameInviteDialogComponent } from './components/backgammon/game-invite-dialog/game-invite-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,14 +30,17 @@ import { PieceComponent } from './components/backgammon/piece/piece.component';
     UserListComponent,
     UserComponent,
     BoardComponent,
-    PieceComponent
+    PieceComponent,
+    GameInviteDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

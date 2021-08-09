@@ -27,7 +27,6 @@ export class BoardComponent implements OnInit {
   }
 
   initGame(): void {
-    this.gameService.newGameTest();
     this.clearBoard();
     this.appendPieces();
   }
@@ -41,14 +40,14 @@ export class BoardComponent implements OnInit {
   private getBarGameIndexer(indexInArray: number): number {
     for (let i = 0; i < 12; i++) {
       if (indexInArray === i) {
-        if (this.gameService.color === this.white)
+        if (this.gameService.playerColor === this.white)
           return 11 - i;
         else return i + 12;
       }
     }
     for (let i = 12; i < 24; i++) {
       if (indexInArray === i) {
-        if (this.gameService.color === this.white)
+        if (this.gameService.playerColor === this.white)
           return i;
         else return 23 - i;
       }

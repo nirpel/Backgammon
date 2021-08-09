@@ -5,6 +5,8 @@ import { faPaperPlane, IconDefinition, faEllipsisV, faArrowLeft } from '@fortawe
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,6 +25,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   constructor(
     public chatService: ChatService,
     private userService: UserService,
+    private notificationService: NotificationService,
+    private backgammonService: BackgammonService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -32,6 +36,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.initializeChat();
     this.scrollToBottom();
     this.chatService.messagePushedEvent.subscribe(this.scrollToBottom);
+    this.notificationService.listen();
   }
 
   initializeChat(): void {
@@ -73,7 +78,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   showOptions(): void {
-    this.router.navigate(['backgammon']);
+    this.backgammonService.inviteToPlay(this.chatService.chatUser);
   }
 
 }

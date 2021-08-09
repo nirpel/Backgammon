@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.config');
 const connectionListener = require('./connection.listener');
 const chatListener = require('./chat.listener');
+const backgammonListener = require('./backgammon.listener');
 const connectionEvents = require('../events/connection.event');
 const db = require('../data-access/models');
 const User = db.user;
@@ -22,6 +23,7 @@ module.exports = (io) => {
         }
         connectionListener(io, socket, users);
         chatListener(io, socket, users);
+        backgammonListener(io, socket, users);
     });
 
 }
