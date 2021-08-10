@@ -31,10 +31,10 @@ export class UserService {
       this.socketService.setupSocketConnection();
     }
 
-    this.socketService.userConnectedEvent.subscribe((users) => {
+    this.socketService.userConnected.subscribe((users) => {
       this.handleUserConnectionActivity(users);
     });
-    this.socketService.userDisonnectedEvent.subscribe((users) => {
+    this.socketService.userDisonnected.subscribe((users) => {
       this.handleUserConnectionActivity(users);
     })
   }

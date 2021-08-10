@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BoardState } from 'src/app/models/backgammon/board-state';
 import { PieceColor } from 'src/app/models/backgammon/piece-color';
 import { SocketService } from '../socket/socket.service';
@@ -6,6 +6,8 @@ import { GameInit } from 'src/app/models/backgammon/game-init';
 import { Router } from '@angular/router';
 import { Dice } from 'src/app/models/backgammon/dice';
 import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
+import { MoveOption } from 'src/app/models/backgammon/move-option';
+import { PieceMovement } from 'src/app/models/backgammon/piece-movement';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,9 @@ export class BackgammonService {
   isDiceRolled: boolean = false;
   isFirstRoll: boolean = true;
   rolls: Dice[] = [];
-  clickedPieceLocation: number;
+  selectedPieceLocation: number;
+  currentMoveOptions: MoveOption[] = [];
+  moveOptionsArrivedEvent: EventEmitter<MoveOption[]> = new EventEmitter();
 
   constructor(
     private socketService: SocketService,
@@ -67,8 +71,22 @@ export class BackgammonService {
   }
 
   onPieceClicked(location: number, color: PieceColor) {
-    if (this.playerColor !== color) return;
-    this.clickedPieceLocation = location;
+    if (this.playerColor === color && !this.isFirstRoll && this.isPlayerTurn) {
+      this.selectedPieceLocation = location;
+      this.socketService.emitPieceClick(this.board, this.rolls, color, location);
+    }
+  }
+
+  movePiece(toBarIndex: number) {
+    let diceValue = this.currentMoveOptions.find(opt => opt.newLocation === toBarIndex).diceValue;
+    let pieceMovement: PieceMovement = {
+      fromLocation: this.selectedPieceLocation,
+      newLocation: toBarIndex,
+      color: this.playerColor,
+      diceValue: diceValue,
+      rolls: this.rolls
+    };
+    this.socketService.emitMovePiece(this.opponent, this.board, pieceMovement);
   }
 
   private listen() {
@@ -81,6 +99,14 @@ export class BackgammonService {
     this.socketService.turnStarted.subscribe(() => {
       this.onTurnStarted();
     });
+    this.socketService.moveOptions.subscribe((moveOptions) => {
+      this.onMoveOptions(moveOptions);
+    });
+  }
+
+  private onMoveOptions(moveOptions: MoveOption[]) {
+    this.currentMoveOptions = moveOptions;
+    this.moveOptionsArrivedEvent.emit();
   }
 
   private onTurnStarted() {

@@ -94,7 +94,7 @@ const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
         // add as a new move option
         options.push({
             newLocation: newLocation,
-            diceValue: rolls[i].value
+            diceValue: rolls[0].value
         });
     }
     return options;

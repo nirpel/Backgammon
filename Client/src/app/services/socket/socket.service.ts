@@ -1,9 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
+import { BoardState } from 'src/app/models/backgammon/board-state';
 import { Dice } from 'src/app/models/backgammon/dice';
 import { GameInit } from 'src/app/models/backgammon/game-init';
+import { MoveOption } from 'src/app/models/backgammon/move-option';
 import { PieceColor } from 'src/app/models/backgammon/piece-color';
+import { PieceMovement } from 'src/app/models/backgammon/piece-movement';
 import { Message } from 'src/app/models/message.model';
 import { environment } from 'src/environments/environment';
 
@@ -11,18 +14,18 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class SocketService {
-
   private socket: Socket;
 
-  userConnectedEvent: EventEmitter<string[]> = new EventEmitter();
-  userDisonnectedEvent: EventEmitter<string[]> = new EventEmitter();
-  messageRecivedEvent: EventEmitter<Message> = new EventEmitter();
+  userConnected: EventEmitter<string[]> = new EventEmitter();
+  userDisonnected: EventEmitter<string[]> = new EventEmitter();
+  messageRecived: EventEmitter<Message> = new EventEmitter();
   backgammonInviteRequest: EventEmitter<string> = new EventEmitter();
   backgammonInviteRejected: EventEmitter<string> = new EventEmitter();
   backgammonInviteAccepted: EventEmitter<GameInit> = new EventEmitter();
   diceRolled: EventEmitter<Dice[]> = new EventEmitter();
   beginnerDecided: EventEmitter<BeginnerData> = new EventEmitter();
   turnStarted: EventEmitter<any> = new EventEmitter();
+  moveOptions: EventEmitter<MoveOption[]> = new EventEmitter();
 
   constructor() { }
 
@@ -84,11 +87,23 @@ export class SocketService {
     this.socket.emit('turn-ended', { to: toUsername });
   }
 
-  emitPieceClick() {
+  emitPieceClick(board: BoardState, rolls: Dice[], color: PieceColor, location: number) {
     this.socket.emit('piece-clicked', {
-      todo: 'add data'
+      board: board,
+      rolls: rolls,
+      color: color,
+      location: location
     });
   }
+
+  emitMovePiece(toUsername: string, board: BoardState, pieceMovement: PieceMovement) {
+    this.socket.emit('move-piece', {
+      to: toUsername,
+      board: board,
+      movement: pieceMovement
+    });
+  }
+
   //#endregion
 
   //#endregion
@@ -96,12 +111,12 @@ export class SocketService {
 
   //#region Socket Listeners
   private initUserListeners() {
-    this.socket.on("user-connected", (users) => this.userConnectedEvent.emit(users));
-    this.socket.on("user-disconnected", (users) => this.userDisonnectedEvent.emit(users));
+    this.socket.on("user-connected", (users) => this.userConnected.emit(users));
+    this.socket.on("user-disconnected", (users) => this.userDisonnected.emit(users));
   }
 
   private initChatListeners() {
-    this.socket.on('message-recived', (message) => this.messageRecivedEvent.emit(message));
+    this.socket.on('message-recived', (message) => this.messageRecived.emit(message));
   }
 
   private initBackgammonListeners() {
@@ -111,6 +126,7 @@ export class SocketService {
     this.socket.on('dice-rolled', (diceData) => this.diceRolled.emit(diceData));
     this.socket.on('beginner-decided', (beginnerData) => this.beginnerDecided.emit(beginnerData));
     this.socket.on('turn-started', () => this.turnStarted.emit());
+    this.socket.on('movement-options', (moveOptions) => this.moveOptions.emit(moveOptions))
   }
   //#endregion
 

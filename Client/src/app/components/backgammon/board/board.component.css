@@ -55,6 +55,15 @@
     background-image: url('src/assets/images/triangle-green.png');
 }
 
+.arrow-marked {
+    filter: drop-shadow(0 -8px 10px red);
+}
+
+.arrow-marked:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
 .middle-bar {
     width: 20px;
     height: 450px;

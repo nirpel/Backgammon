@@ -4,7 +4,8 @@ const {
     backgammonInviteAccepted,
     diceRolled,
     beginnerDecided,
-    turnStarted
+    turnStarted,
+    movementOptions
 } = require('../events/backgammon.events');
 
 module.exports = (io, socket, users) => {
@@ -39,6 +40,10 @@ module.exports = (io, socket, users) => {
         data.to = getSocketId(data.to, users);
         turnStarted(io, socket, data);
     });
+
+    socket.on('piece-clicked', (data) => {
+        movementOptions(io, socket, data);
+    })
 }
 
 const getSocketId = (username, users) => {

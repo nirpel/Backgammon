@@ -1,4 +1,4 @@
-import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, ViewChildren, ViewContainerRef } from '@angular/core';
 import { PieceColor } from 'src/app/models/backgammon/piece-color';
 import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 import { PieceComponent } from '../piece/piece.component';
@@ -12,7 +12,8 @@ export class BoardComponent implements OnInit {
 
   white: PieceColor = PieceColor.White;
   black: PieceColor = PieceColor.Black;
-  @ViewChildren('bar', { read: ViewContainerRef }) bars: QueryList<ViewContainerRef>;
+  optionalBarsIndexes: number[] = [];
+  @ViewChildren('bar', { read: ViewContainerRef }) barContainers: QueryList<ViewContainerRef>;
 
   constructor(
     public gameService: BackgammonService,
@@ -29,28 +30,19 @@ export class BoardComponent implements OnInit {
   initGame(): void {
     this.clearBoard();
     this.appendPieces();
+    this.listen();
   }
 
   clearBoard(): void {
-    for (let i = 0; i < this.bars.length; i++) {
-      this.bars.get(i).clear();
+    for (let i = 0; i < this.barContainers.length; i++) {
+      this.barContainers.get(i).clear();
     }
   }
 
-  private getBarGameIndexer(indexInArray: number): number {
-    for (let i = 0; i < 12; i++) {
-      if (indexInArray === i) {
-        if (this.gameService.playerColor === this.white)
-          return 11 - i;
-        else return i + 12;
-      }
-    }
-    for (let i = 12; i < 24; i++) {
-      if (indexInArray === i) {
-        if (this.gameService.playerColor === this.white)
-          return i;
-        else return 23 - i;
-      }
+  onBarClick(index: number): void {
+    let barIndex: number = this.getBarGameIndexer(index);
+    if (this.optionalBarsIndexes.includes(barIndex)) {
+      this.gameService.movePiece(barIndex);
     }
   }
 
@@ -66,14 +58,41 @@ export class BoardComponent implements OnInit {
   }
 
   addPiece(barId: number, color: PieceColor): void {
-    for (let i = 0; i < this.bars.length; i++) {
+    for (let i = 0; i < this.barContainers.length; i++) {
       if (this.getBarGameIndexer(i) == barId) {
         this.gameService.newPieceColor = color;
         const componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(PieceComponent);
-        const viewContainerRef = this.bars.get(i);
+        const viewContainerRef = this.barContainers.get(i);
         const componentRef = viewContainerRef.createComponent(componentFactory);
         componentRef.instance.location = barId;
         componentRef.changeDetectorRef.detectChanges();
+      }
+    }
+  }
+
+  private listen() {
+    this.gameService.moveOptionsArrivedEvent.subscribe((moveOptions) => {
+      this.onMoveOptionsArrived();
+    });
+  }
+
+  private onMoveOptionsArrived() {
+    this.optionalBarsIndexes = this.gameService.currentMoveOptions.map(option => option.newLocation);
+  }
+
+  getBarGameIndexer(indexInArray: number): number {
+    for (let i = 0; i < 12; i++) {
+      if (indexInArray === i) {
+        if (this.gameService.playerColor === this.white)
+          return 11 - i;
+        else return i + 12;
+      }
+    }
+    for (let i = 12; i < 24; i++) {
+      if (indexInArray === i) {
+        if (this.gameService.playerColor === this.white)
+          return i;
+        else return 23 - i;
       }
     }
   }

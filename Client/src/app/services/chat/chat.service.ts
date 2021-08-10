@@ -25,7 +25,7 @@ export class ChatService {
   }
 
   initSockets() {
-    this.socketService.messageRecivedEvent.subscribe((message: Message) => {
+    this.socketService.messageRecived.subscribe((message: Message) => {
       if (this.chatUser === message.sender) {
         this.pushMessage(message);
       } else {

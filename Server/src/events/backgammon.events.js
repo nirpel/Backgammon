@@ -29,11 +29,17 @@ const turnStarted = (io, socket, data) => {
     io.to(data.to).to(socket.id).emit('turn-started');
 }
 
+const movementOptions = (io, socket, data) => {
+    let moveOptions = backgammonRulesService.getMoveOptions(data.board, data.rolls, data.color, data.location);
+    io.to(socket.id).emit('movement-options', moveOptions);
+}
+
 module.exports = {
     backgammonInviteRequest,
     backgammonInviteRejected,
     backgammonInviteAccepted,
     diceRolled,
     beginnerDecided,
-    turnStarted
+    turnStarted,
+    movementOptions
 }
