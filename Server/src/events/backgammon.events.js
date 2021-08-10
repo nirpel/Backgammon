@@ -20,9 +20,20 @@ const diceRolled = (io, socket, data) => {
     io.to(data.to).to(socket.id).emit('dice-rolled', rolls);
 }
 
+const beginnerDecided = (io, socket, data) => {
+    let beginnerData = backgammonRulesService.setBeginner(data.rolls);
+    io.to(data.to).emit('beginner-decided', beginnerData);
+}
+
+const turnStarted = (io, socket, data) => {
+    io.to(data.to).to(socket.id).emit('turn-started');
+}
+
 module.exports = {
     backgammonInviteRequest,
     backgammonInviteRejected,
     backgammonInviteAccepted,
-    diceRolled
+    diceRolled,
+    beginnerDecided,
+    turnStarted
 }

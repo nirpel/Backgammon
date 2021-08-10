@@ -2,7 +2,9 @@ const {
     backgammonInviteRequest,
     backgammonInviteRejected,
     backgammonInviteAccepted,
-    diceRolled
+    diceRolled,
+    beginnerDecided,
+    turnStarted
 } = require('../events/backgammon.events');
 
 module.exports = (io, socket, users) => {
@@ -26,6 +28,16 @@ module.exports = (io, socket, users) => {
     socket.on('roll-dice', (data) => {
         data.to = getSocketId(data.to, users);
         diceRolled(io, socket, data);
+    });
+
+    socket.on('roll-to-start-ended', (data) => {
+        data.to = getSocketId(data.to, users);
+        beginnerDecided(io, socket, data);
+    });
+
+    socket.on('turn-ended', (data) => {
+        data.to = getSocketId(data.to, users);
+        turnStarted(io, socket, data);
     });
 }
 

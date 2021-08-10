@@ -3,10 +3,10 @@ const randomNumber = () => {
 }
 
 const rollToBegin = () => {
-    return {
+    return [{
         value: randomNumber(),
         isUsed: true
-    };
+    }];
 }
 
 const rollDices = () => {

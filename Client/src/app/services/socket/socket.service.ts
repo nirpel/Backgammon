@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
+import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
 import { Dice } from 'src/app/models/backgammon/dice';
 import { GameInit } from 'src/app/models/backgammon/game-init';
 import { Message } from 'src/app/models/message.model';
@@ -19,6 +20,8 @@ export class SocketService {
   backgammonInviteRejected: EventEmitter<string> = new EventEmitter();
   backgammonInviteAccepted: EventEmitter<GameInit> = new EventEmitter();
   diceRolled: EventEmitter<Dice[]> = new EventEmitter();
+  beginnerDecided: EventEmitter<BeginnerData> = new EventEmitter();
+  turnStarted: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -62,13 +65,23 @@ export class SocketService {
     });
   }
 
-  emitRollDice(toUsername: string, isFirstRoll: boolean = false) {
+  emitRollDice(toUsername: string, isFirstRoll: boolean) {
     this.socket.emit('roll-dice', {
       to: toUsername,
       firstRoll: isFirstRoll
     });
   }
 
+  emitRollToStartEnded(toUsername: string, rolls: Dice[]) {
+    this.socket.emit('roll-to-start-ended', {
+      to: toUsername,
+      rolls: rolls
+    });
+  }
+
+  emitTurnEnded(toUsername: string) {
+    this.socket.emit('turn-ended', { to: toUsername });
+  }
   //#endregion
 
   //#endregion
@@ -89,6 +102,8 @@ export class SocketService {
     this.socket.on('backgammon-invite-rejected', (fromUsername) => this.backgammonInviteRejected.emit(fromUsername));
     this.socket.on('backgammon-invite-accepted', (initGameData) => this.backgammonInviteAccepted.emit(initGameData));
     this.socket.on('dice-rolled', (diceData) => this.diceRolled.emit(diceData));
+    this.socket.on('beginner-decided', (beginnerData) => this.beginnerDecided.emit(beginnerData));
+    this.socket.on('turn-started', () => this.turnStarted.emit());
   }
   //#endregion
 

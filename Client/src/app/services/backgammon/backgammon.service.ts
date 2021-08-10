@@ -5,6 +5,7 @@ import { SocketService } from '../socket/socket.service';
 import { GameInit } from 'src/app/models/backgammon/game-init';
 import { Router } from '@angular/router';
 import { Dice } from 'src/app/models/backgammon/dice';
+import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class BackgammonService {
   playerColor: PieceColor = PieceColor.White;
   newPieceColor: PieceColor = PieceColor.White;
   isPlayerTurn: boolean;
+  isAllRollsUsed: boolean;
+  isDiceRolled: boolean = false;
+  isFirstRoll: boolean = true;
   rolls: Dice[] = [];
 
   constructor(
@@ -28,6 +32,7 @@ export class BackgammonService {
     console.log(data);
     this.setUserColorAndOpponent(data);
     this.setBoardState({ blacksLocations: data.blacksLocations, whitesLocations: data.whitesLocations });
+    this.isPlayerTurn = data.turnOf === localStorage.getItem('username');
     this.listen();
     this.router.navigate(['backgammon']);
   }
@@ -38,6 +43,10 @@ export class BackgammonService {
 
   respondToInvite(accept: boolean, username: string) {
     this.socketService.emitBackgammonInviteAnswer(accept, username);
+  }
+
+  endTurn() {
+    this.socketService.emitTurnEnded(this.opponent);
   }
 
   isPieceOnBoard(pieceIndex: number, color: PieceColor): boolean {
@@ -52,15 +61,56 @@ export class BackgammonService {
   }
 
   rollDice() {
-    this.socketService.emitRollDice(this.opponent, false);
+    this.isDiceRolled = true;
+    this.socketService.emitRollDice(this.opponent, this.isFirstRoll);
   }
 
   private listen() {
-    this.socketService.diceRolled.subscribe((rolls) => this.rolls = rolls);
+    this.socketService.diceRolled.subscribe((rolls) => {
+      this.onDiceRolled(rolls);
+    });
+    this.socketService.beginnerDecided.subscribe((beginnerData) => {
+      this.onBeginnerDecided(beginnerData);
+    });
+    this.socketService.turnStarted.subscribe(() => {
+      this.onTurnStarted();
+    });
   }
 
-  private setIsPlayerTurn() {
-    // TODO: convert colorised turn to boolean expression
+  private onTurnStarted() {
+    this.rolls = [];
+    this.isAllRollsUsed = false;
+    this.isPlayerTurn = !this.isPlayerTurn;
+    this.isDiceRolled = false;
+  }
+
+  private onBeginnerDecided(beginnerData: BeginnerData) {
+    if (this.playerColor === PieceColor.Black) {
+      this.isPlayerTurn = beginnerData.beginner === 0;
+    } else {
+      this.isPlayerTurn = beginnerData.beginner === 1;
+    }
+    this.isFirstRoll = !beginnerData.beginnerDecided;
+    this.isDiceRolled = false;
+  }
+
+  private onDiceRolled(rolls: Dice[]) {
+    if (rolls.length > 1) {
+      this.rolls = rolls;
+    } else {
+      this.setRolledDiceAsFirstRoll(rolls);
+    }
+  }
+
+  private setRolledDiceAsFirstRoll(rolls: Dice[]) {
+    if (this.rolls.length > 1) {
+      this.rolls = [];
+    }
+    this.rolls.push(rolls[0]);
+    this.isPlayerTurn = !this.isPlayerTurn;
+    if (this.rolls.length === 2) {
+      this.socketService.emitRollToStartEnded(this.opponent, this.rolls);
+    }
   }
 
   private setBoardState(newState: BoardState) {
