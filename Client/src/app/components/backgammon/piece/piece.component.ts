@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PieceColor } from 'src/app/models/backgammon/piece-color';
+import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
 import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { GameInit } from 'src/app/models/backgammon/game-init';
+import { GameInit } from 'src/app/models/backgammon/game-init.model';
 import { SocketService } from '../socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GameInviteDialogComponent } from 'src/app/components/backgammon/game-invite-dialog/game-invite-dialog.component';

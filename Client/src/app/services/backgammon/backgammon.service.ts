@@ -1,13 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { BoardState } from 'src/app/models/backgammon/board-state';
-import { PieceColor } from 'src/app/models/backgammon/piece-color';
+import { BoardState } from 'src/app/models/backgammon/board-state.model';
+import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
 import { SocketService } from '../socket/socket.service';
-import { GameInit } from 'src/app/models/backgammon/game-init';
+import { GameInit } from 'src/app/models/backgammon/game-init.model';
 import { Router } from '@angular/router';
-import { Dice } from 'src/app/models/backgammon/dice';
-import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
-import { MoveOption } from 'src/app/models/backgammon/move-option';
-import { PieceMovement } from 'src/app/models/backgammon/piece-movement';
+import { Dice } from 'src/app/models/backgammon/dice.model';
+import { BeginnerData } from 'src/app/models/backgammon/beginner-data.model';
+import { MoveOption } from 'src/app/models/backgammon/move-option.model';
+import { PieceMovement } from 'src/app/models/backgammon/piece-movement.model';
+import { AfterMove } from 'src/app/models/backgammon/after-move.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class BackgammonService {
   rolls: Dice[] = [];
   selectedPieceLocation: number;
   currentMoveOptions: MoveOption[] = [];
-  moveOptionsArrivedEvent: EventEmitter<MoveOption[]> = new EventEmitter();
+  moveOptionsArrived: EventEmitter<any> = new EventEmitter();
+  boardChanged: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private socketService: SocketService,
@@ -86,6 +88,7 @@ export class BackgammonService {
       diceValue: diceValue,
       rolls: this.rolls
     };
+    this.onMoveOptions([]);
     this.socketService.emitMovePiece(this.opponent, this.board, pieceMovement);
   }
 
@@ -102,11 +105,21 @@ export class BackgammonService {
     this.socketService.moveOptions.subscribe((moveOptions) => {
       this.onMoveOptions(moveOptions);
     });
+    this.socketService.pieceMoved.subscribe((gameData) => {
+      this.onPieceMoved(gameData);
+    });
+  }
+
+  private onPieceMoved(gameData: AfterMove) {
+    this.rolls = gameData.rolls;
+    this.board = gameData.board;
+    this.checkIfRollsLeft();
+    this.boardChanged.emit();
   }
 
   private onMoveOptions(moveOptions: MoveOption[]) {
     this.currentMoveOptions = moveOptions;
-    this.moveOptionsArrivedEvent.emit();
+    this.moveOptionsArrived.emit();
   }
 
   private onTurnStarted() {
@@ -114,6 +127,12 @@ export class BackgammonService {
     this.isAllRollsUsed = false;
     this.isPlayerTurn = !this.isPlayerTurn;
     this.isDiceRolled = false;
+  }
+
+  private checkIfRollsLeft() {
+    if (this.rolls.filter(dice => !dice.isUsed).length === 0) {
+      this.isAllRollsUsed = true;
+    }
   }
 
   private onBeginnerDecided(beginnerData: BeginnerData) {

@@ -1,12 +1,13 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
-import { BoardState } from 'src/app/models/backgammon/board-state';
-import { Dice } from 'src/app/models/backgammon/dice';
-import { GameInit } from 'src/app/models/backgammon/game-init';
-import { MoveOption } from 'src/app/models/backgammon/move-option';
-import { PieceColor } from 'src/app/models/backgammon/piece-color';
-import { PieceMovement } from 'src/app/models/backgammon/piece-movement';
+import { AfterMove } from 'src/app/models/backgammon/after-move.model';
+import { BeginnerData } from 'src/app/models/backgammon/beginner-data.model';
+import { BoardState } from 'src/app/models/backgammon/board-state.model';
+import { Dice } from 'src/app/models/backgammon/dice.model';
+import { GameInit } from 'src/app/models/backgammon/game-init.model';
+import { MoveOption } from 'src/app/models/backgammon/move-option.model';
+import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
+import { PieceMovement } from 'src/app/models/backgammon/piece-movement.model';
 import { Message } from 'src/app/models/message.model';
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +27,7 @@ export class SocketService {
   beginnerDecided: EventEmitter<BeginnerData> = new EventEmitter();
   turnStarted: EventEmitter<any> = new EventEmitter();
   moveOptions: EventEmitter<MoveOption[]> = new EventEmitter();
+  pieceMoved: EventEmitter<AfterMove> = new EventEmitter();
 
   constructor() { }
 
@@ -126,7 +128,8 @@ export class SocketService {
     this.socket.on('dice-rolled', (diceData) => this.diceRolled.emit(diceData));
     this.socket.on('beginner-decided', (beginnerData) => this.beginnerDecided.emit(beginnerData));
     this.socket.on('turn-started', () => this.turnStarted.emit());
-    this.socket.on('movement-options', (moveOptions) => this.moveOptions.emit(moveOptions))
+    this.socket.on('movement-options', (moveOptions) => this.moveOptions.emit(moveOptions));
+    this.socket.on('piece-moved', (afterMoveData) => this.pieceMoved.emit(afterMoveData));
   }
   //#endregion
 

@@ -34,6 +34,11 @@ const movementOptions = (io, socket, data) => {
     io.to(socket.id).emit('movement-options', moveOptions);
 }
 
+const pieceMoved = (io, socket, data) => {
+    let afterMoveData = backgammonRulesService.MovePiece(data.board, data.movement);
+    io.to(data.to).to(socket.id).emit('piece-moved', afterMoveData);
+}
+
 module.exports = {
     backgammonInviteRequest,
     backgammonInviteRejected,
@@ -41,5 +46,6 @@ module.exports = {
     diceRolled,
     beginnerDecided,
     turnStarted,
-    movementOptions
+    movementOptions,
+    pieceMoved
 }

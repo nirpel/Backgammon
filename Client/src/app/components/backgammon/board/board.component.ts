@@ -1,5 +1,5 @@
 import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, ViewChildren, ViewContainerRef } from '@angular/core';
-import { PieceColor } from 'src/app/models/backgammon/piece-color';
+import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
 import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 import { PieceComponent } from '../piece/piece.component';
 
@@ -71,9 +71,17 @@ export class BoardComponent implements OnInit {
   }
 
   private listen() {
-    this.gameService.moveOptionsArrivedEvent.subscribe((moveOptions) => {
+    this.gameService.moveOptionsArrived.subscribe(() => {
       this.onMoveOptionsArrived();
     });
+    this.gameService.boardChanged.subscribe(() => {
+      this.onBoardChanged();
+    })
+  }
+
+  private onBoardChanged() {
+    this.clearBoard();
+    this.appendPieces();
   }
 
   private onMoveOptionsArrived() {

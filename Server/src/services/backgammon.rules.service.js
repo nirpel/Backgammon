@@ -32,7 +32,47 @@ const getMoveOptions = (board, rolls, color, pieceLocation) => {
     }
 }
 
+const MovePiece = (board, movement) => {
+    for (let i = 0; i < 15; i++) {
+        if (movement.color === whiteColor && board.whitesLocations[i] === movement.fromLocation) {
+            board.whitesLocations[i] = movement.newLocation;
+            eatPieceIfNeeded(board, movement.color, movement.newLocation);
+            break;
+        }
+        if (movement.color === blackColor && board.blacksLocations[i] === movement.fromLocation) {
+            board.blacksLocations[i] = movement.newLocation;
+            eatPieceIfNeeded(board, movement.color, movement.newLocation);
+            break;
+        }
+    }
+    return {
+        board: board,
+        rolls: getRollsAfterMove(movement.rolls, movement.diceValue)
+    };
+}
+
 //#region Private Functions
+
+const getRollsAfterMove = (rolls, diceValue) => {
+    for (let i = 0; i < rolls.length; i++) {
+        if (rolls[i].value === diceValue && !rolls[i].isUsed) {
+            rolls[i].isUsed = true;
+            break;
+        }
+    }
+    return rolls;
+}
+
+const eatPieceIfNeeded = (board, color, location) => {
+    if (color === whiteColor && board.blacksLocations.filter(loc => loc === location).length === 1) {
+        let index = board.blacksLocations.indexOf(location);
+        board.blacksLocations[index] = -1;
+    }
+    if (color === blackColor && board.whitesLocations.filter(loc => loc === location).length === 1) {
+        let index = board.whitesLocations.indexOf(location);
+        board.whitesLocations[index] = -1;
+    }
+}
 
 const calcNewLocation = (roll, color, pieceLocation) => {
     // if is eaten
@@ -50,9 +90,9 @@ const isStepAvailable = (board, color, newLocation) => {
         return isAllPiecesAtHome(board, color);
     }
     if (color === whiteColor) {
-        return (board.blacksLocations.filter((loc) => loc === newLocation).length < 1);
+        return (board.blacksLocations.filter((loc) => loc === newLocation).length <= 1);
     } else {
-        return (board.whitesLocations.filter((loc) => loc === newLocation).length < 1);
+        return (board.whitesLocations.filter((loc) => loc === newLocation).length <= 1);
     }
 }
 
@@ -90,7 +130,7 @@ const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
     const options = [];
     let newLocation = calcNewLocation(rolls[0], color, pieceLocation);
     // if roll is relevant (step to new location is available)
-    if (isStepAvailable(board, color, newLocation)) {
+    if (!rolls[0].isUsed && isStepAvailable(board, color, newLocation)) {
         // add as a new move option
         options.push({
             newLocation: newLocation,
@@ -105,6 +145,7 @@ const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
 const backgammonRulesService = {
     initGame,
     setBeginner,
-    getMoveOptions
+    getMoveOptions,
+    MovePiece
 };
 module.exports = backgammonRulesService;

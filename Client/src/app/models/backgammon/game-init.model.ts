@@ -1,4 +1,4 @@
-import {BoardState} from './board-state';
+import {BoardState} from './board-state.model';
 
 export interface GameInit extends BoardState {
     black: string;
