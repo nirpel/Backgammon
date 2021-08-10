@@ -70,8 +70,10 @@ export class BoardComponent implements OnInit {
       if (this.getBarGameIndexer(i) == barId) {
         this.gameService.newPieceColor = color;
         const componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(PieceComponent);
-        const viewContainerRef = this.bars.get(i);        
-        viewContainerRef.createComponent(componentFactory).changeDetectorRef.detectChanges();
+        const viewContainerRef = this.bars.get(i);
+        const componentRef = viewContainerRef.createComponent(componentFactory);
+        componentRef.instance.location = barId;
+        componentRef.changeDetectorRef.detectChanges();
       }
     }
   }

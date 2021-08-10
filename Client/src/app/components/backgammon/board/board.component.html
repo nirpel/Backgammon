@@ -98,8 +98,10 @@
                 </app-dice>
             </div>
             <div>
-                <button *ngIf="gameService.isPlayerTurn && !gameService.isDiceRolled" (click)="gameService.rollDice()">Roll!</button>
-                <button *ngIf="gameService.isPlayerTurn && gameService.isDiceRolled" (click)="gameService.endTurn()"><!-- ngIf add condition for all rolls are used -->Finish</button>
+                <button *ngIf="gameService.isPlayerTurn && !gameService.isDiceRolled"
+                    (click)="gameService.rollDice()">Roll!</button>
+                <button *ngIf="gameService.isPlayerTurn && gameService.isDiceRolled && gameService.isAllRollsUsed"
+                    (click)="gameService.endTurn()">Finish</button>
             </div>
         </div>
     </div>

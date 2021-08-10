@@ -12,9 +12,14 @@ export class PieceComponent implements OnInit {
   white: PieceColor = PieceColor.White;
   black: PieceColor = PieceColor.Black;
   color: PieceColor = this.gameService.newPieceColor;
+  location: number;
 
   constructor(private gameService: BackgammonService) { }
 
   ngOnInit(): void {
+  }
+
+  onClick() {
+    this.gameService.onPieceClicked(this.location, this.color);
   }
 }

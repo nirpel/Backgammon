@@ -22,6 +22,7 @@ export class BackgammonService {
   isDiceRolled: boolean = false;
   isFirstRoll: boolean = true;
   rolls: Dice[] = [];
+  clickedPieceLocation: number;
 
   constructor(
     private socketService: SocketService,
@@ -63,6 +64,11 @@ export class BackgammonService {
   rollDice() {
     this.isDiceRolled = true;
     this.socketService.emitRollDice(this.opponent, this.isFirstRoll);
+  }
+
+  onPieceClicked(location: number, color: PieceColor) {
+    if (this.playerColor !== color) return;
+    this.clickedPieceLocation = location;
   }
 
   private listen() {

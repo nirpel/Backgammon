@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { BeginnerData } from 'src/app/models/backgammon/beginner-data';
 import { Dice } from 'src/app/models/backgammon/dice';
 import { GameInit } from 'src/app/models/backgammon/game-init';
+import { PieceColor } from 'src/app/models/backgammon/piece-color';
 import { Message } from 'src/app/models/message.model';
 import { environment } from 'src/environments/environment';
 
@@ -81,6 +82,12 @@ export class SocketService {
 
   emitTurnEnded(toUsername: string) {
     this.socket.emit('turn-ended', { to: toUsername });
+  }
+
+  emitPieceClick() {
+    this.socket.emit('piece-clicked', {
+      todo: 'add data'
+    });
   }
   //#endregion
 
