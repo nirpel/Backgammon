@@ -1,4 +1,4 @@
-import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, ViewChildren, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
 import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 import { PieceComponent } from '../piece/piece.component';
@@ -14,6 +14,7 @@ export class BoardComponent implements OnInit {
   black: PieceColor = PieceColor.Black;
   optionalBarsIndexes: number[] = [];
   @ViewChildren('bar', { read: ViewContainerRef }) barContainers: QueryList<ViewContainerRef>;
+  @ViewChild('graveyard', { read: ViewContainerRef}) graveyardContainer: ViewContainerRef;
 
   constructor(
     public gameService: BackgammonService,
@@ -37,6 +38,7 @@ export class BoardComponent implements OnInit {
     for (let i = 0; i < this.barContainers.length; i++) {
       this.barContainers.get(i).clear();
     }
+    this.graveyardContainer.clear();
   }
 
   onBarClick(index: number): void {
@@ -58,16 +60,26 @@ export class BoardComponent implements OnInit {
   }
 
   addPiece(barId: number, color: PieceColor): void {
-    for (let i = 0; i < this.barContainers.length; i++) {
-      if (this.getBarGameIndexer(i) == barId) {
-        this.gameService.newPieceColor = color;
-        const componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(PieceComponent);
-        const viewContainerRef = this.barContainers.get(i);
-        const componentRef = viewContainerRef.createComponent(componentFactory);
-        componentRef.instance.location = barId;
-        componentRef.changeDetectorRef.detectChanges();
+    if (barId === -1) {
+      const componentRef = this.graveyardContainer.createComponent(this.getPieceComponentFactory(color));
+      componentRef.instance.location = -1;
+      componentRef.changeDetectorRef.detectChanges();
+    } else {
+      for (let i = 0; i < this.barContainers.length; i++) {
+        if (this.getBarGameIndexer(i) === barId) {
+          const componentFactory = this.getPieceComponentFactory(color);
+          const viewContainerRef = this.barContainers.get(i);
+          const componentRef = viewContainerRef.createComponent(componentFactory);
+          componentRef.instance.location = barId;
+          componentRef.changeDetectorRef.detectChanges();
+        }
       }
     }
+  }
+
+  private getPieceComponentFactory(color: PieceColor) {
+    this.gameService.newPieceColor = color;
+    return this.componentFactoryResolver.resolveComponentFactory(PieceComponent);
   }
 
   private listen() {

@@ -20,7 +20,7 @@ const setBeginner = (rolls) => {
 
 const getMoveOptions = (board, rolls, color, pieceLocation) => {
     // if player tries to move a piece on board while having one or more 'dead' pieces
-    if (isOneOrMorePiecesAreEaten(board, color)) {
+    if (isOneOrMorePiecesAreEaten(board, color) && pieceLocation !== -1) {
         return []; // return empty options array
     }
     // 'rolls' length will be 4 in case of double; 2 in any other case
@@ -128,14 +128,17 @@ const getMoveOptionsForRegularRoll = (board, rolls, color, pieceLocation) => {
 
 const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
     const options = [];
-    let newLocation = calcNewLocation(rolls[0], color, pieceLocation);
-    // if roll is relevant (step to new location is available)
-    if (!rolls[0].isUsed && isStepAvailable(board, color, newLocation)) {
-        // add as a new move option
-        options.push({
-            newLocation: newLocation,
-            diceValue: rolls[0].value
-        });
+    for (let i = 0; i < rolls.length; i++) {
+        let newLocation = calcNewLocation(rolls[i], color, pieceLocation);
+        // if roll is relevant (step to new location is available)
+        if (!rolls[i].isUsed && isStepAvailable(board, color, newLocation)) {
+            // add as a new move option
+            options.push({
+                newLocation: newLocation,
+                diceValue: rolls[i].value
+            });
+            break;
+        }
     }
     return options;
 }

@@ -59,9 +59,9 @@ export class BackgammonService {
   isPieceOnBoard(pieceIndex: number, color: PieceColor): boolean {
     if (pieceIndex < 15 && pieceIndex >= 0) {
       if (color === PieceColor.White) {
-        return this.board.whitesLocations[pieceIndex] >= 0 && this.board.whitesLocations[pieceIndex] < 24
+        return this.board.whitesLocations[pieceIndex] >= -1 && this.board.whitesLocations[pieceIndex] < 24
       } else {
-        return this.board.blacksLocations[pieceIndex] >= 0 && this.board.blacksLocations[pieceIndex] < 24
+        return this.board.blacksLocations[pieceIndex] >= -1 && this.board.blacksLocations[pieceIndex] < 24
       }
     }
     return false;
