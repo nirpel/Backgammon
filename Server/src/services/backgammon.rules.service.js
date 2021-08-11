@@ -2,22 +2,11 @@ const whiteColor = 1;
 const blackColor = 0;
 
 const initGame = (users) => {
-    return initGameToAlmostEndTest(users);
     return {
         black: users[0],
         white: users[1],
         blacksLocations: [5, 5, 5, 5, 5, 7, 7, 7, 12, 12, 12, 12, 12, 23, 23],
         whitesLocations: [18, 18, 18, 18, 18, 16, 16, 16, 11, 11, 11, 11, 11, 0, 0],
-        turnOf: users[0]
-    };
-}
-
-const initGameToAlmostEndTest = (users) => {
-    return {
-        black: users[0],
-        white: users[1],
-        blacksLocations: [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 3, 2, 2, 2, 1],
-        whitesLocations: [18, 18, 18, 18, 18, 17, 17, 20, 21, 22, 22, 21, 20, 23, 19],
         turnOf: users[0]
     };
 }
@@ -172,6 +161,16 @@ const isFurtherPiecesExistForRemovingRoll = (board, specificRoll, color, pieceLo
     if (color === blackColor && specificRoll.value - pieceLocation > 1) {
         return board.blacksLocations.filter(loc => loc > pieceLocation && loc !== 24).length > 0;
     }
+}
+
+const initGameToAlmostEndTest = (users) => {
+    return {
+        black: users[0],
+        white: users[1],
+        blacksLocations: [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 3, 2, 2, 2, 1],
+        whitesLocations: [18, 18, 18, 18, 18, 17, 17, 20, 21, 22, 22, 21, 20, 23, 19],
+        turnOf: users[0]
+    };
 }
 
 //#endregion
