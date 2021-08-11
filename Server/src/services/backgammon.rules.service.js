@@ -2,11 +2,22 @@ const whiteColor = 1;
 const blackColor = 0;
 
 const initGame = (users) => {
+    return initGameToAlmostEndTest(users);
     return {
         black: users[0],
         white: users[1],
         blacksLocations: [5, 5, 5, 5, 5, 7, 7, 7, 12, 12, 12, 12, 12, 23, 23],
         whitesLocations: [18, 18, 18, 18, 18, 16, 16, 16, 11, 11, 11, 11, 11, 0, 0],
+        turnOf: users[0]
+    };
+}
+
+const initGameToAlmostEndTest = (users) => {
+    return {
+        black: users[0],
+        white: users[1],
+        blacksLocations: [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 3, 2, 2, 2, 1],
+        whitesLocations: [18, 18, 18, 18, 18, 17, 17, 20, 21, 22, 22, 21, 20, 23, 19],
         turnOf: users[0]
     };
 }
@@ -23,13 +34,14 @@ const getMoveOptions = (board, rolls, color, pieceLocation) => {
     if (isOneOrMorePiecesAreEaten(board, color) && pieceLocation !== -1) {
         return []; // return empty options array
     }
-    getMoveOptionsForAnyRoll(board, rolls, color, pieceLocation)
+    return getMoveOptionsForAnyRoll(board, rolls, color, pieceLocation)
 }
 
 const isAbleToMoveSomething = (board, rolls, color) => {
     for (let i = 0; i < 15; i++) {
         let pieceLocation = color === whiteColor ? board.whitesLocations[i] : board.blacksLocations[i];
-        if (getMoveOptions(board, rolls, color, pieceLocation).length > 0) {
+        let options = getMoveOptions(board, rolls, color, pieceLocation);
+        if (options.length > 0) {
             return true;
         }
     }
@@ -60,10 +72,10 @@ const isGameOver = (board) => {
 }
 
 const getWinner = (board) => {
-    if (this.board.whitesLocations.filter(loc => loc !== 24).length === 0) {
+    if (board.whitesLocations.filter(loc => loc !== 24).length === 0) {
         return { winner: 'white' };
     }
-    if (this.board.blacksLocations.filter(loc => loc !== 24).length === 0) {
+    if (board.blacksLocations.filter(loc => loc !== 24).length === 0) {
         return { winner: 'black' };
     }
     return null;
@@ -82,6 +94,7 @@ const getRollsAfterMove = (rolls, diceValue) => {
 }
 
 const eatPieceIfNeeded = (board, color, location) => {
+    if (location === 24) return;
     if (color === whiteColor && board.blacksLocations.filter(loc => loc === location).length === 1) {
         let index = board.blacksLocations.indexOf(location);
         board.blacksLocations[index] = -1;
@@ -157,7 +170,7 @@ const isFurtherPiecesExistForRemovingRoll = (board, specificRoll, color, pieceLo
     }
     // if dicevalue - piecelocation > exactly 1, than check if there are more behind. if yes, than result = true. else false.
     if (color === blackColor && specificRoll.value - pieceLocation > 1) {
-        return board.blacksLocations.filter(loc => loc > pieceLocation).length > 0;
+        return board.blacksLocations.filter(loc => loc > pieceLocation && loc !== 24).length > 0;
     }
 }
 

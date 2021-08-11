@@ -130,11 +130,11 @@
         </div>
     </div>
     <div class="side-pockets">
-        <div class="side-pocket-container">
+        <div class="side-pocket-container side-pocket-up">
             <ng-container #opponentPocket></ng-container>
         </div>
         <div class="side-pockets-seperator"></div>
-        <div class="side-pocket-container" (click)="onBarClick(23)"
+        <div class="side-pocket-container side-pocket-down" (click)="onBarClick(24)"
             [ngClass]="optionalBarsIndexes.includes(24) && gameService.isPlayerTurn ? 'pocket-marked' : ''">
             <ng-container #playerPocket></ng-container>
         </div>

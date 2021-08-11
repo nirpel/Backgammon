@@ -41,10 +41,12 @@ export class BoardComponent implements OnInit {
       this.barContainers.get(i).clear();
     }
     this.graveyardContainer.clear();
+    this.opponentPocketContainer.clear();
+    this.playerPocketContainer.clear();
   }
 
   onBarClick(index: number): void {
-    let barIndex: number = this.getBarGameIndexer(index);
+    let barIndex: number = index < 24 ? this.getBarGameIndexer(index) : index;
     if (this.optionalBarsIndexes.includes(barIndex)) {
       this.gameService.movePiece(barIndex);
     }

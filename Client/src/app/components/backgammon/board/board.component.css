@@ -49,6 +49,17 @@
 .side-pocket-container {
     height: 220px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.side-pocket-up {
+    justify-content: flex-start;
+}
+
+.side-pocket-down {
+    justify-content: flex-end;
 }
 
 .top-row {

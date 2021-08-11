@@ -15,7 +15,6 @@ import { AfterMove } from 'src/app/models/backgammon/after-move.model';
 })
 export class BackgammonService {
 
-
   board: BoardState = { blacksLocations: [], whitesLocations: [] };
   opponent: string;
   playerColor: PieceColor = PieceColor.White;
@@ -36,7 +35,6 @@ export class BackgammonService {
   ) { }
 
   initGame(data: GameInit) {
-    console.log(data);
     this.setUserColorAndOpponent(data);
     this.setBoardState({ blacksLocations: data.blacksLocations, whitesLocations: data.whitesLocations });
     this.isPlayerTurn = data.turnOf === localStorage.getItem('username');
@@ -77,6 +75,10 @@ export class BackgammonService {
   }
 
   onPieceClicked(location: number, color: PieceColor) {
+    let moveOptionsLocations = this.currentMoveOptions.map(mo => mo.newLocation);
+    if (this.selectedPieceLocation !== location && moveOptionsLocations.includes(location)) {
+      return;
+    }
     if (this.playerColor === color && !this.isFirstRoll && this.isPlayerTurn) {
       this.selectedPieceLocation = location;
       this.socketService.emitPieceClick(this.board, this.rolls, color, location);
