@@ -47,6 +47,14 @@ const pieceMoved = (io, socket, data) => {
         }
     }
     io.to(data.to).to(socket.id).emit('piece-moved', afterMoveData);
+    if (backgammonRulesService.isGameOver(data.board)) {
+        gameOver(io, socket, data);
+    }
+}
+
+const gameOver = (io, socket, data) => {
+    let gameOverData = backgammonRulesService.getWinner(data.board);
+    io.to(data.to).to(socket.id).emit('game-over', gameOverData);
 }
 
 module.exports = {
@@ -57,5 +65,6 @@ module.exports = {
     beginnerDecided,
     turnStarted,
     movementOptions,
-    pieceMoved
+    pieceMoved,
+    gameOver
 }

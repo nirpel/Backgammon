@@ -112,6 +112,28 @@ export class BackgammonService {
     this.socketService.pieceMoved.subscribe((gameData) => {
       this.onPieceMoved(gameData);
     });
+    this.socketService.gameOver.subscribe((gameOverData) => {
+      this.onGameOver(gameOverData);
+    })
+  }
+
+  private onGameOver(gameOverData: any) {
+    if (gameOverData.winner === 'black' && this.playerColor === PieceColor.Black ||
+      gameOverData.winner === 'white' && this.playerColor === PieceColor.White) {
+      this.notifyWinner();
+    } else {
+      this.notifyLoser();
+    }
+  }
+
+  private notifyWinner() {
+    alert('you WON!');
+    this.isPlayerTurn = false;
+  }
+
+  private notifyLoser() {
+    alert('you Lost...');
+    this.isPlayerTurn = false;
   }
 
   private onPieceMoved(gameData: AfterMove) {

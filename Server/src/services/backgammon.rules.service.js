@@ -55,6 +55,20 @@ const MovePiece = (board, movement) => {
     };
 }
 
+const isGameOver = (board) => {
+    return getWinner(board) !== null;
+}
+
+const getWinner = (board) => {
+    if (this.board.whitesLocations.filter(loc => loc !== 24).length === 0) {
+        return { winner: 'white' };
+    }
+    if (this.board.blacksLocations.filter(loc => loc !== 24).length === 0) {
+        return { winner: 'black' };
+    }
+    return null;
+}
+
 //#region Private Functions
 
 const getRollsAfterMove = (rolls, diceValue) => {
@@ -142,7 +156,7 @@ const isFurtherPiecesExistForRemovingRoll = (board, specificRoll, color, pieceLo
         return board.whitesLocations.filter(loc => loc < pieceLocation).length > 0;
     }
     // if dicevalue - piecelocation > exactly 1, than check if there are more behind. if yes, than result = true. else false.
-    if(color === blackColor && specificRoll.value - pieceLocation > 1) {
+    if (color === blackColor && specificRoll.value - pieceLocation > 1) {
         return board.blacksLocations.filter(loc => loc > pieceLocation).length > 0;
     }
 }
@@ -154,6 +168,8 @@ const backgammonRulesService = {
     setBeginner,
     getMoveOptions,
     MovePiece,
-    isAbleToMoveSomething
+    isAbleToMoveSomething,
+    isGameOver,
+    getWinner
 };
 module.exports = backgammonRulesService;

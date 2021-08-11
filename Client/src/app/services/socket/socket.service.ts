@@ -28,6 +28,7 @@ export class SocketService {
   turnStarted: EventEmitter<any> = new EventEmitter();
   moveOptions: EventEmitter<MoveOption[]> = new EventEmitter();
   pieceMoved: EventEmitter<AfterMove> = new EventEmitter();
+  gameOver: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -132,6 +133,7 @@ export class SocketService {
     this.socket.on('turn-started', () => this.turnStarted.emit());
     this.socket.on('movement-options', (moveOptions) => this.moveOptions.emit(moveOptions));
     this.socket.on('piece-moved', (afterMoveData) => this.pieceMoved.emit(afterMoveData));
+    this.socket.on('game-over', (gameOverData) => this.gameOver.emit(gameOverData));
   }
   //#endregion
 
