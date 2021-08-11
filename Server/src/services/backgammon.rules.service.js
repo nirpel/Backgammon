@@ -32,6 +32,16 @@ const getMoveOptions = (board, rolls, color, pieceLocation) => {
     }
 }
 
+const isAbleToMoveSomething = (board, rolls, color) => {
+    for (let i = 0; i < 15; i++) {
+        let pieceLocation = color === whiteColor ? board.whitesLocations[i] : board.blacksLocations[i];
+        if (getMoveOptions(board, rolls, color, pieceLocation).length > 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 const MovePiece = (board, movement) => {
     for (let i = 0; i < 15; i++) {
         if (movement.color === whiteColor && board.whitesLocations[i] === movement.fromLocation) {
@@ -149,6 +159,7 @@ const backgammonRulesService = {
     initGame,
     setBeginner,
     getMoveOptions,
-    MovePiece
+    MovePiece,
+    isAbleToMoveSomething
 };
 module.exports = backgammonRulesService;

@@ -69,7 +69,11 @@ export class BackgammonService {
 
   rollDice() {
     this.isDiceRolled = true;
-    this.socketService.emitRollDice(this.opponent, this.isFirstRoll);
+    if (this.isFirstRoll) {
+      this.socketService.emitRollDice(this.opponent, this.isFirstRoll);
+    } else {
+      this.socketService.emitRollDice(this.opponent, this.isFirstRoll, this.board, this.playerColor);
+    }
   }
 
   onPieceClicked(location: number, color: PieceColor) {
@@ -148,6 +152,7 @@ export class BackgammonService {
   private onDiceRolled(rolls: Dice[]) {
     if (rolls.length > 1) {
       this.rolls = rolls;
+      this.checkIfRollsLeft();
     } else {
       this.setRolledDiceAsFirstRoll(rolls);
     }

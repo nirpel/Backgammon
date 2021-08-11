@@ -71,10 +71,12 @@ export class SocketService {
     });
   }
 
-  emitRollDice(toUsername: string, isFirstRoll: boolean) {
+  emitRollDice(toUsername: string, isFirstRoll: boolean, board: BoardState = null, color: PieceColor = null) {
     this.socket.emit('roll-dice', {
       to: toUsername,
-      firstRoll: isFirstRoll
+      firstRoll: isFirstRoll,
+      board: board,
+      color: color
     });
   }
 

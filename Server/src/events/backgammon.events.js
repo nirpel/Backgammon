@@ -17,6 +17,11 @@ const backgammonInviteAccepted = (io, socket, data) => {
 
 const diceRolled = (io, socket, data) => {
     let rolls = data.firstRoll ? diceService.rollToBegin() : diceService.rollDices();
+    if (!data.firstRoll && !backgammonRulesService.isAbleToMoveSomething(data.board, rolls, data.color)) {
+        for (let i = 0; i < rolls.length; i++) {
+            rolls[i].isUsed = true;
+        }
+    }
     io.to(data.to).to(socket.id).emit('dice-rolled', rolls);
 }
 
@@ -36,6 +41,11 @@ const movementOptions = (io, socket, data) => {
 
 const pieceMoved = (io, socket, data) => {
     let afterMoveData = backgammonRulesService.MovePiece(data.board, data.movement);
+    if (!backgammonRulesService.isAbleToMoveSomething(data.board, data.movement.rolls, data.movement.color)) {
+        for (let i = 0; i < afterMoveData.rolls.length; i++) {
+            afterMoveData.rolls[i].isUsed = true;
+        }
+    }
     io.to(data.to).to(socket.id).emit('piece-moved', afterMoveData);
 }
 
