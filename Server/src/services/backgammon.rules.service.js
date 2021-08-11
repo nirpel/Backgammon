@@ -23,13 +23,7 @@ const getMoveOptions = (board, rolls, color, pieceLocation) => {
     if (isOneOrMorePiecesAreEaten(board, color) && pieceLocation !== -1) {
         return []; // return empty options array
     }
-    // 'rolls' length will be 4 in case of double; 2 in any other case
-    // regular rolls case (not a double)
-    if (rolls.length === 2) {
-        return getMoveOptionsForRegularRoll(board, rolls, color, pieceLocation);
-    } else {    // double case (4 rolls; two dices with same value)
-        return getMoveOptionsForDoubleRoll(board, rolls, color, pieceLocation);
-    }
+    getMoveOptionsForAnyRoll(board, rolls, color, pieceLocation)
 }
 
 const isAbleToMoveSomething = (board, rolls, color) => {
@@ -118,28 +112,15 @@ const isAllPiecesAtHome = (board, color) => {
     }
 }
 
-const getMoveOptionsForRegularRoll = (board, rolls, color, pieceLocation) => {
+const getMoveOptionsForAnyRoll = (board, rolls, color, pieceLocation) => {
     const options = [];
-    // iterate rolls
     for (let i = 0; i < rolls.length; i++) {
-        // get the new location of specific roll
         let newLocation = calcNewLocation(rolls[i], color, pieceLocation);
-        // if roll is relevant (not used already in same turn & step to new location is available)
-        if (!rolls[i].isUsed && isStepAvailable(board, color, newLocation)) {
-            // add as a new move option
-            options.push({
-                newLocation: newLocation,
-                diceValue: rolls[i].value
-            });
+        // if new location is 24 (remove piece) and there are further pieces with the specific roll to be relevant for them for being removed
+        if (newLocation === 24 && isFurtherPiecesExistForRemovingRoll(board, rolls[i], color, pieceLocation)) {
+            // pass to next roll and do NOT consider removing this piece as valid move.
+            continue;
         }
-    }
-    return options;
-}
-
-const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
-    const options = [];
-    for (let i = 0; i < rolls.length; i++) {
-        let newLocation = calcNewLocation(rolls[i], color, pieceLocation);
         // if roll is relevant (step to new location is available)
         if (!rolls[i].isUsed && isStepAvailable(board, color, newLocation)) {
             // add as a new move option
@@ -147,10 +128,23 @@ const getMoveOptionsForDoubleRoll = (board, rolls, color, pieceLocation) => {
                 newLocation: newLocation,
                 diceValue: rolls[i].value
             });
-            break;
+            if (rolls.length > 2) {
+                break;
+            }
         }
     }
     return options;
+}
+
+const isFurtherPiecesExistForRemovingRoll = (board, specificRoll, color, pieceLocation) => {
+    // if piecelocation + dicevalue > exactly 24, than check if there are more behind. if yes, than result = true. else false.
+    if (color === whiteColor && pieceLocation + specificRoll.value > 24) {
+        return board.whitesLocations.filter(loc => loc < pieceLocation).length > 0;
+    }
+    // if dicevalue - piecelocation > exactly 1, than check if there are more behind. if yes, than result = true. else false.
+    if(color === blackColor && specificRoll.value - pieceLocation > 1) {
+        return board.blacksLocations.filter(loc => loc > pieceLocation).length > 0;
+    }
 }
 
 //#endregion

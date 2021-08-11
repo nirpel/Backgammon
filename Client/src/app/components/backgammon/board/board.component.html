@@ -1,85 +1,109 @@
 <div class="board-container">
     <div class="board">
         <div class="top-row">
-            <div class="arrow-down odd" (click)="onBarClick(0)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(0)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(0)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(0)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(1)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(1)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(1)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(1)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down odd" (click)="onBarClick(2)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(2)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(2)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(2)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(3)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(3)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(3)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(3)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down odd" (click)="onBarClick(4)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(4)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(4)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(4)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(5)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(5)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(5)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(5)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
         </div>
 
         <div class="top-row">
-            <div class="arrow-down odd" (click)="onBarClick(6)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(6)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(6)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(6)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(7)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(7)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(7)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(7)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down odd" (click)="onBarClick(8)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(8)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(8)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(8)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(9)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(9)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(9)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(9)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down odd" (click)="onBarClick(10)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(10)) ? 'arrow-marked' : ''">
+            <div class="arrow-down odd" (click)="onBarClick(10)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(10)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-down even" (click)="onBarClick(11)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(11)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-        </div>
-
-        <div class="bottom-row">
-            <div class="arrow-up odd" (click)="onBarClick(12)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(12)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-            <div class="arrow-up even" (click)="onBarClick(13)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(13)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-            <div class="arrow-up odd" (click)="onBarClick(14)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(14)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-            <div class="arrow-up even" (click)="onBarClick(15)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(15)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-            <div class="arrow-up odd" (click)="onBarClick(16)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(16)) ? 'arrow-marked' : ''">
-                <ng-container #bar class="piece-container"></ng-container>
-            </div>
-            <div class="arrow-up even" (click)="onBarClick(17)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(17)) ? 'arrow-marked' : ''">
+            <div class="arrow-down even" (click)="onBarClick(11)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(11)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
         </div>
 
         <div class="bottom-row">
-            <div class="arrow-up odd" (click)="onBarClick(18)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(18)) ? 'arrow-marked' : ''">
+            <div class="arrow-up odd" (click)="onBarClick(12)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(12)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-up even" (click)="onBarClick(19)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(19)) ? 'arrow-marked' : ''">
+            <div class="arrow-up even" (click)="onBarClick(13)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(13)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-up odd" (click)="onBarClick(20)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(20)) ? 'arrow-marked' : ''">
+            <div class="arrow-up odd" (click)="onBarClick(14)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(14)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-up even" (click)="onBarClick(21)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(21)) ? 'arrow-marked' : ''">
+            <div class="arrow-up even" (click)="onBarClick(15)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(15)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-up odd" (click)="onBarClick(22)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(22)) ? 'arrow-marked' : ''">
+            <div class="arrow-up odd" (click)="onBarClick(16)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(16)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
-            <div class="arrow-up even" (click)="onBarClick(23)" [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(23)) ? 'arrow-marked' : ''">
+            <div class="arrow-up even" (click)="onBarClick(17)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(17)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+        </div>
+
+        <div class="bottom-row">
+            <div class="arrow-up odd" (click)="onBarClick(18)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(18)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+            <div class="arrow-up even" (click)="onBarClick(19)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(19)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+            <div class="arrow-up odd" (click)="onBarClick(20)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(20)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+            <div class="arrow-up even" (click)="onBarClick(21)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(21)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+            <div class="arrow-up odd" (click)="onBarClick(22)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(22)) ? 'arrow-marked' : ''">
+                <ng-container #bar class="piece-container"></ng-container>
+            </div>
+            <div class="arrow-up even" (click)="onBarClick(23)"
+                [ngClass]="optionalBarsIndexes.includes(getBarGameIndexer(23)) ? 'arrow-marked' : ''">
                 <ng-container #bar class="piece-container"></ng-container>
             </div>
         </div>
@@ -103,6 +127,16 @@
                 <button *ngIf="gameService.isPlayerTurn && gameService.isDiceRolled && gameService.isAllRollsUsed"
                     (click)="gameService.endTurn()">Finish</button>
             </div>
+        </div>
+    </div>
+    <div class="side-pockets">
+        <div class="side-pocket-container">
+            <ng-container #opponentPocket></ng-container>
+        </div>
+        <div class="side-pockets-seperator"></div>
+        <div class="side-pocket-container" (click)="onBarClick(23)"
+            [ngClass]="optionalBarsIndexes.includes(24) && gameService.isPlayerTurn ? 'pocket-marked' : ''">
+            <ng-container #playerPocket></ng-container>
         </div>
     </div>
 </div>

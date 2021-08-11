@@ -1,1 +1,2 @@
-<div class="piece" [ngClass]="color === black ? 'black' : 'white'" (click)="onClick()"></div>
+<div class="piece" [ngClass]="[color === black ? 'black' : 'white', isFlat ? 'piece-flat' : 'piece-round']"
+    (click)="onClick()"></div>

@@ -1,4 +1,4 @@
-import { Component, ComponentFactory, ComponentFactoryResolver, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 import { PieceColor } from 'src/app/models/backgammon/piece-color.model';
 import { BackgammonService } from 'src/app/services/backgammon/backgammon.service';
 import { PieceComponent } from '../piece/piece.component';
@@ -14,7 +14,9 @@ export class BoardComponent implements OnInit {
   black: PieceColor = PieceColor.Black;
   optionalBarsIndexes: number[] = [];
   @ViewChildren('bar', { read: ViewContainerRef }) barContainers: QueryList<ViewContainerRef>;
-  @ViewChild('graveyard', { read: ViewContainerRef}) graveyardContainer: ViewContainerRef;
+  @ViewChild('graveyard', { read: ViewContainerRef }) graveyardContainer: ViewContainerRef;
+  @ViewChild('opponentPocket', { read: ViewContainerRef }) opponentPocketContainer: ViewContainerRef;
+  @ViewChild('playerPocket', { read: ViewContainerRef }) playerPocketContainer: ViewContainerRef;
 
   constructor(
     public gameService: BackgammonService,
@@ -50,31 +52,50 @@ export class BoardComponent implements OnInit {
 
   appendPieces(): void {
     for (let i = 0; i < 15; i++) {
-      if (this.gameService.isPieceOnBoard(i, PieceColor.White)) {
-        this.addPiece(this.gameService.board.whitesLocations[i], PieceColor.White);
-      }
-      if (this.gameService.isPieceOnBoard(i, PieceColor.Black)) {
-        this.addPiece(this.gameService.board.blacksLocations[i], PieceColor.Black);
-      }
+      this.addPiece(this.gameService.board.whitesLocations[i], PieceColor.White);
+      this.addPiece(this.gameService.board.blacksLocations[i], PieceColor.Black);
     }
   }
 
   addPiece(barId: number, color: PieceColor): void {
-    if (barId === -1) {
-      const componentRef = this.graveyardContainer.createComponent(this.getPieceComponentFactory(color));
-      componentRef.instance.location = -1;
-      componentRef.changeDetectorRef.detectChanges();
+    if (barId === 24) {
+      this.addPieceToPocket(color);
+    }
+    else if (barId === -1) {
+      this.addPieceToGraveyard(color);
     } else {
-      for (let i = 0; i < this.barContainers.length; i++) {
-        if (this.getBarGameIndexer(i) === barId) {
-          const componentFactory = this.getPieceComponentFactory(color);
-          const viewContainerRef = this.barContainers.get(i);
-          const componentRef = viewContainerRef.createComponent(componentFactory);
-          componentRef.instance.location = barId;
-          componentRef.changeDetectorRef.detectChanges();
-        }
+      this.addPieceToBoard(barId, color);
+    }
+  }
+
+  private addPieceToBoard(location: number, color: PieceColor) {
+    for (let i = 0; i < this.barContainers.length; i++) {
+      if (this.getBarGameIndexer(i) === location) {
+        const componentFactory = this.getPieceComponentFactory(color);
+        const viewContainerRef = this.barContainers.get(i);
+        const componentRef = viewContainerRef.createComponent(componentFactory);
+        componentRef.instance.location = location;
+        componentRef.changeDetectorRef.detectChanges();
       }
     }
+  }
+
+  private addPieceToGraveyard(color: PieceColor) {
+    const componentRef = this.graveyardContainer.createComponent(this.getPieceComponentFactory(color));
+    componentRef.instance.location = -1;
+    componentRef.changeDetectorRef.detectChanges();
+  }
+
+  private addPieceToPocket(color: PieceColor) {
+    let componentRef: ComponentRef<PieceComponent>;
+    if (color === this.gameService.playerColor) {
+      componentRef = this.playerPocketContainer.createComponent(this.getPieceComponentFactory(color));
+    } else {
+      componentRef = this.opponentPocketContainer.createComponent(this.getPieceComponentFactory(color));
+    }
+    componentRef.instance.location = 24;
+    componentRef.instance.isFlat = true;
+    componentRef.changeDetectorRef.detectChanges();
   }
 
   private getPieceComponentFactory(color: PieceColor) {

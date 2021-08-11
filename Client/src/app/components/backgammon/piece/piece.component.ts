@@ -13,6 +13,7 @@ export class PieceComponent implements OnInit {
   black: PieceColor = PieceColor.Black;
   color: PieceColor = this.gameService.newPieceColor;
   location: number;
+  isFlat = false;
 
   constructor(private gameService: BackgammonService) { }
 
@@ -20,6 +21,8 @@ export class PieceComponent implements OnInit {
   }
 
   onClick() {
-    this.gameService.onPieceClicked(this.location, this.color);
+    if (!this.isFlat) {
+      this.gameService.onPieceClicked(this.location, this.color);
+    }
   }
 }

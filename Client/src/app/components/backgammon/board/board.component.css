@@ -1,8 +1,7 @@
 .board-container {
+    width: auto;
     display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -14,11 +13,42 @@
     background-size: cover;
     box-sizing: border-box;
     border: 10px solid black;
-    border-radius: 10px;
+    border-radius: 10px 0 0 10px;
     margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.side-pockets {
+    height: 480px;
+    width: 61px;
+    position: relative;
+    background-image: url('src/assets/images/white-wood-background.jpg');
+    background-size: cover;
+    box-sizing: border-box;
+    border-width: 10px 15px 10px 10px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 0 10px 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.pocket-marked {
+    box-shadow: inset 0px 0px 10px 5px red;
+}
+
+.side-pockets-seperator {
+    background-color: black;
+    z-index: 1;
+    height: 20px;
+    width: 110%;
+}
+
+.side-pocket-container {
+    height: 220px;
+    width: 100%;
 }
 
 .top-row {
@@ -59,7 +89,7 @@
     filter: drop-shadow(0 -8px 10px red);
 }
 
-.arrow-marked:hover {
+.arrow-marked:hover, .pocket-marked:hover {
     opacity: 0.85;
     cursor: pointer;
 }
