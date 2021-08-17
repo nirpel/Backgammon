@@ -3,7 +3,6 @@ const db = require('../data-access/models');
 const { getChatByUsers } = require('../data-access/use-cases/chat.use-case');
 const { createChatMessage } = require('../data-access/use-cases/chat-message.use-case');
 const User = db.user;
-const ChatMessage = db.chatMessage;
 
 module.exports = (io, socket, users) => {
     socket.on('message-sent', async (data) => {

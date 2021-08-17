@@ -23,6 +23,10 @@ export class NotificationService {
     });
     this.socketService.backgammonInviteAccepted.subscribe((initGameData) => {
       this.backgammonService.initGame(initGameData);
+      this.dialog.closeAll();
+    });
+    this.socketService.backgammonInviteRejected.subscribe(() => {
+      this.dialog.closeAll();
     })
   }
 }

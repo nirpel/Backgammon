@@ -1,14 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
-import { User } from 'src/app/models/user.model';
 import { SocketService } from '../socket/socket.service';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthenticationService } from '../authentication/authentication.service';
-
-const URL = 'http://localhost:3420';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +13,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private socketService: SocketService,
-    private authService: AuthenticationService
+    private socketService: SocketService
   ) {
     this.initSockets();
   }
@@ -60,7 +52,7 @@ export class UserService {
 
   private getUsersList() {
     let users: string[];
-    return this.http.get<string[]>(URL + '/api/users').subscribe(
+    return this.http.get<string[]>(environment.SERVER_URL + '/api/users').subscribe(
       (data) => {
         users = data;
       }, (err) => {

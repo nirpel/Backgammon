@@ -3,9 +3,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Chat } from 'src/app/models/chat.model';
 import { Message } from 'src/app/models/message.model';
+import { environment } from 'src/environments/environment.prod';
 import { SocketService } from '../socket/socket.service';
-
-const URL = 'http://localhost:3420';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +64,7 @@ export class ChatService {
   }
 
   private getChat() {
-    return this.http.get<Chat>(URL + '/api/chat/get-chat', {
+    return this.http.get<Chat>(environment.SERVER_URL + '/api/chat/get-chat', {
       params: {
         chatUser: this.chatUser
       },

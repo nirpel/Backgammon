@@ -5,8 +5,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login } from '../../models/login.model';
 
-const URL = 'http://localhost:3420';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,10 +15,10 @@ export class AuthenticationService {
   ) { }
 
   login(user: Login): Observable<any> {
-    return this.http.post(URL + '/api/auth/signin', user);
+    return this.http.post(environment.SERVER_URL + '/api/auth/signin', user);
   }
 
   signUp(user: Login): Observable<any> {
-    return this.http.post(URL + '/api/auth/signup', user);
+    return this.http.post(environment.SERVER_URL + '/api/auth/signup', user);
   }
 }

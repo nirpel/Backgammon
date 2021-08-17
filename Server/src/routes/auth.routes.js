@@ -1,6 +1,5 @@
 const { verifySignUp } = require('../middlewares');
 const authController = require('../controllers/auth.controller');
-const config = require('../config');
 
 module.exports = (app) => {
     app.use((req, res, next) => {
@@ -8,7 +7,7 @@ module.exports = (app) => {
         next();
     });
 
-    app.post(config.SIGN_UP_URL, [verifySignUp.checkDuplicateUserName], authController.signUp);
-    app.post(config.SIGN_IN_URL, authController.signIn);
-    app.post(config.SIGN_OUT_URL, authController.signOut);
+    app.post(process.env.SIGN_UP_URL, [verifySignUp.checkDuplicateUserName], authController.signUp);
+    app.post(process.env.SIGN_IN_URL, authController.signIn);
+    app.post(process.env.SIGN_OUT_URL, authController.signOut);
 };

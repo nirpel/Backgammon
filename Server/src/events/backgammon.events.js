@@ -6,7 +6,7 @@ const backgammonInviteRequest = (io, socket, data) => {
 }
 
 const backgammonInviteRejected = (io, socket, data) => {
-    io.to(data.to).emit('backgammon-invite-rejected', data.from);
+    io.to(socket.id).to(data.to).emit('backgammon-invite-rejected', data.from);
 }
 
 const backgammonInviteAccepted = (io, socket, data) => {

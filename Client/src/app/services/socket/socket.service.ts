@@ -33,7 +33,7 @@ export class SocketService {
   constructor() { }
 
   setupSocketConnection() {
-    this.socket = io(environment.SOCKET_ENDPOINT, { query: { 'token': localStorage.getItem('token') } });
+    this.socket = io(environment.SERVER_URL, { query: { 'token': localStorage.getItem('token') } });
     this.initUserListeners();
     this.initChatListeners();
     this.initBackgammonListeners();

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const authConfig = require('../config/auth.config');
 const db = require('../data-access/models');
 const User = db.user;
 
@@ -30,7 +29,7 @@ signIn = (req, res) => {
         if (user) {
             let isPasswordValid = await bcrypt.compare(req.body.password, user.password);
             if (isPasswordValid) {
-                let token = jwt.sign({ id: user._id, username: user.username }, authConfig.secret);
+                let token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_KEY);
                 return res.status(200).send({
                     id: user._id,
                     username: user.username,

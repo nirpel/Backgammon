@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: 'http://localhost:3420'
+  SERVER_URL: 'http://localhost:3420'
 };
 
 /*
